@@ -226,32 +226,37 @@
             }).open();
         }
 
+      // 1. 상품 로드 (유효한 데이터만 필터링)
         async function loadProducts() {
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
-                allProducts = await res.json(); 
+                const rawData = await res.json(); 
+                
+                // 상품명이 비어있지 않은 실제 상품만 필터링
+                allProducts = rawData.filter(p => p.상품명 && String(p.상품명).trim() !== "");
+                
                 renderNav(); 
-                renderMainList(); // 베스트 구분 없이 전체 리스트
+                renderMainList(); 
             } catch (e) { console.error("Data Error:", e); }
         }
 
-        function renderNav() {
-            const navData = {}; 
-            allProducts.forEach(p => { 
-                if(p.카테고리) { 
-                    if(!navData[p.카테고리]) navData[p.카테고리] = new Set(); 
-                    if(p.서브카테고리) navData[p.카테고리].add(p.서브카테고리); 
-                }
-            });
-            document.getElementById('main-nav').innerHTML = Object.keys(navData).map(cat => `
-                <button class="nav-tab uppercase shrink-0" onclick="filterByCat('${cat}')">${cat}</button>
-            `).join('');
-        }
-
+        // 2. 메인 리스트 렌더링 (최신순 정렬 적용)
         function renderMainList() {
-            document.getElementById('top5-container').innerHTML = allProducts.map(p => createProductCard(p)).join('');
+            // 스프레드시트 아래에 쓴 상품이 위로 오도록 역순 정렬
+            const displayProducts = [...allProducts].reverse(); 
+            
+            if (displayProducts.length === 0) {
+                document.getElementById('top5-container').innerHTML = `
+                    <p class="col-span-full text-center py-20 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+                        NO PRODUCTS REGISTERED.
+                    </p>`;
+                return;
+            }
+
+            document.getElementById('top5-container').innerHTML = displayProducts.map(p => createProductCard(p)).join('');
         }
 
+        // 3. 상품 카드 생성 (디자인 유지)
         function createProductCard(p) {
             return `
                 <div class="product-grid-item cursor-pointer group" onclick="showProductDetail('${p.상품명}')">
