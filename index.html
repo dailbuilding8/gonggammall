@@ -16,7 +16,7 @@
         .nav-tab.active::after { content: ''; position: absolute; bottom: -12px; left: 0; width: 100%; height: 2px; background: #111; }
         .product-grid-item { border-radius: 0px; transition: opacity 0.3s; }
         .product-grid-item:hover { opacity: 0.7; }
-        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; font-size: 13px; }
+        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; font-size: 13px; text-align: left; }
         .form-input:focus { border-color: #111; background: #fff; }
         .order-status { font-size: 10px; padding: 3px 6px; border: 1px solid #ddd; border-radius: 2px; }
         ::-webkit-scrollbar { width: 5px; }
@@ -25,7 +25,7 @@
 </head>
 <body>
     <header class="sticky top-0 z-[200] header-minimal">
-        <div class="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div class="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between text-left">
             <h1 class="text-xl font-black tracking-widest cursor-pointer uppercase" onclick="showMain()">GongGamMall</h1>
             <div class="flex items-center gap-8 text-[11px] font-black uppercase tracking-tighter">
                 <button id="user-info-btn" class="hidden border-b border-black" onclick="showView('mypage')"></button>
@@ -35,171 +35,91 @@
             </div>
         </div>
         <nav class="max-w-screen-2xl mx-auto px-6 h-14 flex gap-10 items-center overflow-x-auto no-scrollbar border-t border-gray-50">
-            <button class="nav-tab active shrink-0" onclick="showMain()">ALL PRODUCTS</button>
+            <button class="nav-tab active shrink-0 uppercase" onclick="showMain()">ALL PRODUCTS</button>
             <div id="main-nav" class="flex gap-10 h-full items-center shrink-0"></div>
         </nav>
     </header>
 
-    <main class="min-h-screen">
+    <main class="min-h-screen text-left">
         <section id="home-view" class="view-section">
             <div class="max-w-screen-2xl mx-auto px-6 py-12">
                 <div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div>
             </div>
         </section>
 
-        <section id="category-view" class="view-section hidden py-12 px-6 max-w-screen-2xl mx-auto">
-            <h2 id="category-title" class="text-xs font-black mb-10 tracking-widest uppercase border-b border-black pb-4">CATEGORY</h2>
-            <div id="product-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div>
-        </section>
+        <section id="category-view" class="view-section hidden py-12 px-6 max-w-screen-2xl mx-auto"><h2 id="category-title" class="text-xs font-black mb-10 tracking-widest uppercase border-b border-black pb-4">CATEGORY</h2><div id="product-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></section>
+        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto"><div class="grid grid-cols-1 md:grid-cols-2 gap-20"><div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div><div class="flex flex-col justify-start pt-10"><p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest"></p><h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter text-left"></h2><div class="mb-10 pb-10 border-b border-gray-100 text-left"><span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1">KRW</span></div><div class="space-y-8"><div class="flex items-center justify-between"><span class="text-[11px] font-black uppercase tracking-widest">Quantity</span><div class="flex items-center border border-black"><button onclick="changeQty(-1)" class="w-10 h-10 font-bold">-</button><input type="text" id="order-qty" value="1" readonly class="w-10 text-center font-bold text-sm"><button onclick="changeQty(1)" class="w-10 h-10 font-bold">+</button></div></div><div class="flex items-center justify-between pt-4 border-t border-black"><span class="text-[11px] font-black uppercase">Total</span><span id="total-price-display" class="text-xl font-black"></span></div><div class="grid grid-cols-2 gap-2 pt-6 text-left"><button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase hover:bg-black hover:text-white transition">Add to Cart</button><button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Buy Now</button></div></div></div></div><div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto text-left"><img id="detail-long-img" src="" class="w-full h-auto"></div></section>
+        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto text-left"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left">Shopping Bag</h2><div id="cart-items" class="space-y-10 mb-12"></div><div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div><div class="grid grid-cols-2 gap-2"><button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase">Continue</button><button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Order</button></div></section>
+        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-lg mx-auto text-left"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Checkout</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-16"><div class="space-y-10"><div class="space-y-4 text-left"><h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Shipping Information</h3><input type="text" id="chk-orderer-name" placeholder="Name" class="form-input"><input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input"><div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div><input type="text" id="chk-address" readonly class="form-input"><input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input"><input type="text" id="chk-request" placeholder="Message" class="form-input"></div></div><div class="bg-gray-50 p-10 h-fit text-left"><h3 class="text-[11px] font-black uppercase mb-8">Summary</h3><div id="checkout-items" class="space-y-2 mb-8 border-b border-gray-200 pb-8 text-xs font-medium"></div><div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase text-red-600">Final Total</span><span id="chk-final-total" class="text-2xl font-black text-red-600"></span></div><button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase">Pay Now</button><div class="mt-4 flex items-center gap-2"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase text-left">I agree to the terms.</label></div></div></div></section>
 
-        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
-                <div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div>
-                <div class="flex flex-col justify-start pt-10">
-                    <p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest"></p>
-                    <h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter"></h2>
-                    <div class="mb-10 pb-10 border-b border-gray-100">
-                        <span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1 text-gray-400">KRW</span>
-                    </div>
-                    <div class="space-y-8">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-black uppercase tracking-widest">Quantity</span>
-                            <div class="flex items-center border border-black">
-                                <button onclick="changeQty(-1)" class="w-10 h-10 font-bold">-</button>
-                                <input type="text" id="order-qty" value="1" readonly class="w-10 text-center font-bold text-sm">
-                                <button onclick="changeQty(1)" class="w-10 h-10 font-bold">+</button>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-black">
-                            <span class="text-[11px] font-black uppercase">Total</span>
-                            <span id="total-price-display" class="text-xl font-black"></span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 pt-6">
-                            <button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase hover:bg-black hover:text-white transition">Add to Cart</button>
-                            <button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto"><img id="detail-long-img" src="" class="w-full h-auto"></div>
-        </section>
-
-        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto">
-            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left">Shopping Bag</h2>
-            <div id="cart-items" class="space-y-10 mb-12"></div>
-            <div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div>
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase">Continue</button>
-                <button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Order</button>
-            </div>
-        </section>
-
-        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-lg mx-auto text-left">
-            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Checkout</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <div class="space-y-10">
-                    <div class="space-y-4">
-                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Shipping Information</h3>
-                        <input type="text" id="chk-orderer-name" placeholder="Name" class="form-input">
-                        <input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input">
-                        <div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button></div>
-                        <input type="text" id="chk-address" readonly class="form-input">
-                        <input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input">
-                        <input type="text" id="chk-request" placeholder="Message" class="form-input">
-                    </div>
-                </div>
-                <div class="bg-gray-50 p-10 h-fit">
-                    <h3 class="text-[11px] font-black uppercase mb-8">Summary</h3>
-                    <div id="checkout-items" class="space-y-2 mb-8 border-b border-gray-200 pb-8 text-xs font-medium"></div>
-                    <div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase">Final Total</span><span id="chk-final-total" class="text-2xl font-black text-red-600"></span></div>
-                    <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase">Pay Now</button>
-                    <div class="mt-4 flex items-center gap-2 text-left"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase">I agree to the terms.</label></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center">
-            <div class="w-full max-w-xs space-y-10 text-center">
-                <h2 class="text-xs font-black tracking-[0.3em] uppercase">Sign In</h2>
+        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center text-left">
+            <div class="w-full max-w-xs space-y-10">
+                <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase">Sign In</h2>
                 <div class="space-y-2">
                     <input type="text" id="login-id" placeholder="ID" class="form-input text-center">
                     <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input text-center">
                     <button onclick="handleLogin()" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4">Login</button>
-                    <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline">Register</button>
+                    <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline text-center">Register</button>
                 </div>
             </div>
         </section>
 
         <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left">
-            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10">Register</h2>
+            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10 text-left">Register</h2>
             <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-2"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
-                <div class="grid grid-cols-2 gap-2"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div>
-                <div class="flex gap-1"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button></div>
-                <input type="text" id="reg-address" readonly class="form-input"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input">
-                
-                <div class="pt-8 space-y-8">
+                <div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
+                <div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div>
+                <div class="flex gap-1 text-left"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
+                <input type="text" id="reg-address" readonly class="form-input text-left"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input text-left">
+                <div class="pt-8 space-y-8 text-left">
                     <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400">Terms & Agreement</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div>
-                        <div class="text-[9px] h-40 overflow-y-auto bg-gray-50 p-4 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-                            <strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 권리 의무 및 책임사항을 규정합니다... (중략)
-                        </div>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div>
-                        <div class="text-[9px] h-40 overflow-y-auto bg-gray-50 p-4 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-                            <strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 주소.<br><strong>2. 수집목적</strong>: 서비스 제공 및 회원관리.<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지.
-                        </div>
-                    </div>
+                    <div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br><strong>제2조 (용어의 정의)</strong><br>1. "몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말합니다...</div></div>
+                    <div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase tracking-widest">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 주소.<br><strong>2. 수집목적</strong>: 서비스 제공 및 회원관리.<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지.</div></div>
                 </div>
                 <button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10">Create Account</button>
             </div>
         </section>
 
-        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto">
+        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto text-left">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
                 <div class="space-y-10 text-left">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Profile Settings</h3>
-                    <div class="space-y-4">
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase">Name</label><input type="text" id="my-name" class="form-input"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase">Phone</label><input type="text" id="my-phone" class="form-input"></div>
-                        <div class="space-y-2">
-                            <label class="text-[9px] font-black text-gray-400 uppercase">Address</label>
-                            <div class="flex gap-1"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
-                            <input type="text" id="my-address" readonly class="form-input">
-                            <input type="text" id="my-address-detail" placeholder="Detail" class="form-input">
+                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Profile Settings</h3>
+                    <div class="space-y-4 text-left">
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Name</label><input type="text" id="my-name" class="form-input"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Phone</label><input type="text" id="my-phone" class="form-input"></div>
+                        <div class="space-y-2 text-left">
+                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Address</label>
+                            <div class="flex gap-1 text-left"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
+                            <input type="text" id="my-address" readonly class="form-input"><input type="text" id="my-address-detail" placeholder="Detail Address" class="form-input">
                         </div>
-                        <div class="pt-4 border-t border-gray-50">
-                            <label class="text-[9px] font-black text-gray-400 uppercase">Password Change</label>
+                        <div class="pt-4 border-t border-gray-100 text-left">
+                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Password Change</label>
                             <input type="password" id="my-pw" placeholder="New Password (or Leave Blank)" class="form-input">
                         </div>
                         <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6">Save Changes</button>
                     </div>
                 </div>
                 <div class="lg:col-span-3 space-y-10 text-left">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Order History</h3>
+                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Order History</h3>
                     <div id="my-orders-list" class="divide-y divide-gray-100"></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="border-t border-gray-100 py-20 bg-white">
+    <footer class="border-t border-gray-100 py-20 bg-white text-left">
         <div class="max-w-screen-2xl mx-auto px-6 text-center text-[10px] font-bold text-gray-400">
             <h2 class="text-sm font-black uppercase tracking-[0.4em] mb-10 text-black italic">GongGamMall</h2>
-            <div class="space-y-1 mb-10">
-                <p>CEO: 김원석 | Business License: [과세사업자]</p>
-                <p>Location: -</p>
-                <p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p>
+            <div class="space-y-1 mb-10 text-left md:text-center">
+                <p>CEO: 김원석 | Business License: [과세사업자]</p><p>Location: -</p><p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p>
             </div>
             <p class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">© 2026 GongGamMall. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzQ_v0agoGc24UxU6Xbj5HRXNIRgqpudQrCM8Nvp2Qn8PUnF6MJe-tfg7gG6JnMbvv5/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbymsAT-gByE2QYAsPABgNnn5bGIFU741Xqv_I5VNQEbRbBgwgs-UtfMNWjZW6Jwz-ES/exec';
         let allProducts = [], cart = JSON.parse(localStorage.getItem('ggm_cart')) || [];
         let currentUser = JSON.parse(localStorage.getItem('ggm_user'));
         let currentProductObj = null, currentQty = 1, orderType = 'single';
@@ -246,7 +166,7 @@
         }
 
         function createProductCard(p) {
-            return `<div class="product-grid-item cursor-pointer group" onclick="showProductDetail('${p.상품명}')"><div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden"><img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div><div class="space-y-1 text-left"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest">${p.브랜드 || 'GGM'}</p><h3 class="text-[11px] font-bold text-gray-900 line-clamp-1">${p.상품명}</h3><p class="text-[11px] font-black">${Number(p.가격).toLocaleString()} KRW</p></div></div>`;
+            return `<div class="product-grid-item cursor-pointer group" onclick="showProductDetail('${p.상품명}')"><div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden"><img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div><div class="space-y-1 text-left"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest">${p.브랜드 || 'GGM'}</p><h3 class="text-[11px] font-bold text-gray-900 line-clamp-1">${p.상품명}</h3><p class="text-[11px] font-black uppercase tracking-widest">${Number(p.가격).toLocaleString()} KRW</p></div></div>`;
         }
 
         function showProductDetail(name) {
@@ -298,7 +218,7 @@
             let total = 0;
             container.innerHTML = cart.map((item, idx) => {
                 total += (item.가격 * item.qty);
-                return `<div class="flex gap-10 items-center border-b border-gray-50 pb-10"><img src="${item.이미지URL}" class="w-20 h-24 object-cover"><div class="flex-1 space-y-1 text-left"><p class="text-[9px] font-black text-gray-300 uppercase">${item.브랜드}</p><h4 class="text-[11px] font-bold">${item.상품명}</h4><p class="text-[11px] font-black">${(item.가격*item.qty).toLocaleString()} KRW</p></div><div class="flex items-center gap-6"><div class="flex border border-gray-100"><button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold">-</button><span class="w-8 text-center text-[10px] font-bold leading-8">${item.qty}</span><button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold">+</button></div><button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline">Remove</button></div></div>`;
+                return `<div class="flex gap-10 items-center border-b border-gray-50 pb-10"><img src="${item.이미지URL}" class="w-20 h-24 object-cover"><div class="flex-1 space-y-1 text-left"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest">${item.브랜드}</p><h4 class="text-[11px] font-bold uppercase tracking-widest">${item.상품명}</h4><p class="text-[11px] font-black uppercase tracking-widest">${(item.가격*item.qty).toLocaleString()} KRW</p></div><div class="flex items-center gap-6"><div class="flex border border-gray-100"><button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold">-</button><span class="w-8 text-center text-[10px] font-bold leading-8">${item.qty}</span><button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold">+</button></div><button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline">Remove</button></div></div>`;
             }).join('');
             document.getElementById('cart-total').innerText = total.toLocaleString() + ' KRW';
         }
@@ -312,9 +232,9 @@
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
             if(data.result === 'success') { 
-                // 로그인 시 시트의 주소 데이터를 가져와 로컬저장소에 저장
+                // [강제 바인딩] 서버 응답 필드와 로컬 저장소 필드를 1:1 매칭
                 currentUser = { 
-                    id, 
+                    id: id, 
                     name: data.name, 
                     phone: data.phone,
                     postcode: data.postcode || "",
@@ -347,7 +267,7 @@
             document.getElementById('chk-final-total').innerText = totalStr;
             document.getElementById('chk-orderer-name').value = currentUser.name || '';
             document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
-            // 주문 페이지에도 주소 불러오기
+            // 주소 자동 로드
             document.getElementById('chk-postcode').value = currentUser.postcode || '';
             document.getElementById('chk-address').value = currentUser.address || '';
             document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
@@ -369,13 +289,13 @@
 
         async function loadMyPage() {
             if(!currentUser) return;
-            // 마이페이지 진입 시 로컬저장소의 정보를 화면에 뿌리기
-            document.getElementById('my-id').value = currentUser.id;
-            document.getElementById('my-name').value = currentUser.name || '';
-            document.getElementById('my-phone').value = currentUser.phone || '';
-            document.getElementById('my-postcode').value = currentUser.postcode || '';
-            document.getElementById('my-address').value = currentUser.address || '';
-            document.getElementById('my-address-detail').value = currentUser.addressDetail || '';
+            // [중요] 마이페이지 열 때 로컬 저장소 값을 강제로 입력창에 주입
+            document.getElementById('my-id').value = currentUser.id || "";
+            document.getElementById('my-name').value = currentUser.name || "";
+            document.getElementById('my-phone').value = currentUser.phone || "";
+            document.getElementById('my-postcode').value = currentUser.postcode || "";
+            document.getElementById('my-address').value = currentUser.address || "";
+            document.getElementById('my-address-detail').value = currentUser.addressDetail || "";
             
             const container = document.getElementById('my-orders-list');
             try {
@@ -397,16 +317,15 @@
                 pw: document.getElementById('my-pw').value
             };
             const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') {
-                alert('Saved Successfully');
-                // 로컬 저장소 동기화
+            if(await res.text() === 'success') { 
+                alert('Saved Successfully'); 
                 currentUser.name = data.name;
                 currentUser.phone = data.phone;
                 currentUser.postcode = data.postcode;
                 currentUser.address = data.address;
                 currentUser.addressDetail = data.addressDetail;
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser));
-                location.reload();
+                location.reload(); 
             } else { alert('Update Fail'); }
         }
 
