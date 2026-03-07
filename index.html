@@ -85,7 +85,7 @@
         </section>
 
         <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto">
-            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Shopping Bag</h2>
+            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left">Shopping Bag</h2>
             <div id="cart-items" class="space-y-10 mb-12"></div>
             <div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div>
             <div class="grid grid-cols-2 gap-2">
@@ -94,7 +94,7 @@
             </div>
         </section>
 
-        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-lg mx-auto">
+        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-lg mx-auto text-left">
             <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Checkout</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                 <div class="space-y-10">
@@ -111,9 +111,9 @@
                 <div class="bg-gray-50 p-10 h-fit">
                     <h3 class="text-[11px] font-black uppercase mb-8">Summary</h3>
                     <div id="checkout-items" class="space-y-2 mb-8 border-b border-gray-200 pb-8 text-xs font-medium"></div>
-                    <div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase text-red-600">Final Total</span><span id="chk-final-total" class="text-2xl font-black text-red-600"></span></div>
+                    <div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase">Final Total</span><span id="chk-final-total" class="text-2xl font-black text-red-600"></span></div>
                     <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase">Pay Now</button>
-                    <div class="mt-4 flex items-center gap-2"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase">I agree to the terms.</label></div>
+                    <div class="mt-4 flex items-center gap-2 text-left"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase">I agree to the terms.</label></div>
                 </div>
             </div>
         </section>
@@ -130,7 +130,7 @@
             </div>
         </section>
 
-        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto">
+        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left">
             <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10">Register</h2>
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-2"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
@@ -139,49 +139,47 @@
                 <input type="text" id="reg-address" readonly class="form-input"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input">
                 
                 <div class="pt-8 space-y-8">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 text-left">Terms & Agreement</h3>
-                    <div class="space-y-3 text-left">
+                    <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400">Terms & Agreement</h3>
+                    <div class="space-y-3">
                         <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div>
-                        <div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-                            <strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
-                            <strong>제2조 (용어의 정의)</strong><br>1. "몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말합니다.<br>2. "이용자"란 "몰"에 접속하여 이 약관에 따라 "몰"이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.<br>3. "회원"이라 함은 "몰"에 개인정보를 제공하여 회원등록을 한 자로서, "몰"의 정보를 지속적으로 제공받으며 "몰"이 제공하는 서비스를 계속적으로 이용할 수 있는 자를 말합니다.
+                        <div class="text-[9px] h-40 overflow-y-auto bg-gray-50 p-4 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+                            <strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 권리 의무 및 책임사항을 규정합니다... (중략)
                         </div>
                     </div>
-                    <div class="space-y-3 text-left">
+                    <div class="space-y-3">
                         <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div>
-                        <div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-                            <strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 배송지주소.<br><strong>2. 수집목적</strong>: 서비스 제공, 회원관리, 물품배송 처리 등...<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지 (단, 관계 법령에 따라 보관이 필요한 경우 해당 기간 보관)
+                        <div class="text-[9px] h-40 overflow-y-auto bg-gray-50 p-4 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+                            <strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 주소.<br><strong>2. 수집목적</strong>: 서비스 제공 및 회원관리.<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지.
                         </div>
                     </div>
                 </div>
-
                 <button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10">Create Account</button>
             </div>
         </section>
 
         <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
-                <div class="space-y-10">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Profile Settings</h3>
-                    <div class="space-y-4 text-left">
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Name</label><input type="text" id="my-name" class="form-input"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Phone</label><input type="text" id="my-phone" class="form-input"></div>
+                <div class="space-y-10 text-left">
+                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Profile Settings</h3>
+                    <div class="space-y-4">
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase">Name</label><input type="text" id="my-name" class="form-input"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase">Phone</label><input type="text" id="my-phone" class="form-input"></div>
                         <div class="space-y-2">
-                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Address</label>
+                            <label class="text-[9px] font-black text-gray-400 uppercase">Address</label>
                             <div class="flex gap-1"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
                             <input type="text" id="my-address" readonly class="form-input">
-                            <input type="text" id="my-address-detail" placeholder="Detail Address" class="form-input">
+                            <input type="text" id="my-address-detail" placeholder="Detail" class="form-input">
                         </div>
                         <div class="pt-4 border-t border-gray-50">
-                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Password Change</label>
-                            <input type="password" id="my-pw" placeholder="Leave blank to keep current" class="form-input">
+                            <label class="text-[9px] font-black text-gray-400 uppercase">Password Change</label>
+                            <input type="password" id="my-pw" placeholder="New Password (or Leave Blank)" class="form-input">
                         </div>
                         <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6">Save Changes</button>
                     </div>
                 </div>
-                <div class="lg:col-span-3 space-y-10">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Order History</h3>
+                <div class="lg:col-span-3 space-y-10 text-left">
+                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Order History</h3>
                     <div id="my-orders-list" class="divide-y divide-gray-100"></div>
                 </div>
             </div>
@@ -219,7 +217,7 @@
             new daum.Postcode({
                 oncomplete: function(data) {
                     let addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
-                    const prefix = (type === 'order') ? 'chk' : (type === 'reg') ? 'reg' : 'my';
+                    let prefix = (type === 'order') ? 'chk' : (type === 'reg') ? 'reg' : 'my';
                     document.getElementById(prefix + '-postcode').value = data.zonecode;
                     document.getElementById(prefix + '-address').value = addr;
                     document.getElementById(prefix + '-address-detail').focus();
@@ -314,7 +312,7 @@
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
             if(data.result === 'success') { 
-                // 서버에서 불러온 주소 정보를 포함하여 저장
+                // 로그인 시 시트의 주소 데이터를 가져와 로컬저장소에 저장
                 currentUser = { 
                     id, 
                     name: data.name, 
@@ -349,7 +347,7 @@
             document.getElementById('chk-final-total').innerText = totalStr;
             document.getElementById('chk-orderer-name').value = currentUser.name || '';
             document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
-            // 주문 시에도 기존 주소 자동 입력
+            // 주문 페이지에도 주소 불러오기
             document.getElementById('chk-postcode').value = currentUser.postcode || '';
             document.getElementById('chk-address').value = currentUser.address || '';
             document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
@@ -371,7 +369,7 @@
 
         async function loadMyPage() {
             if(!currentUser) return;
-            // 마이페이지 진입 시 최신 정보를 화면에 채움
+            // 마이페이지 진입 시 로컬저장소의 정보를 화면에 뿌리기
             document.getElementById('my-id').value = currentUser.id;
             document.getElementById('my-name').value = currentUser.name || '';
             document.getElementById('my-phone').value = currentUser.phone || '';
@@ -383,7 +381,7 @@
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
                 const orders = await res.json();
-                if(orders.length === 0) { container.innerHTML = '<p class="py-20 text-[10px] font-bold text-gray-300 uppercase tracking-widest">No orders</p>'; }
+                if(orders.length === 0) { container.innerHTML = '<p class="py-20 text-[10px] font-bold text-gray-300 uppercase tracking-widest text-left">No orders</p>'; }
                 else { container.innerHTML = orders.map(o => `<div class="py-8 flex justify-between items-start text-left"><div class="space-y-1"><p class="text-[9px] font-black text-gray-300 tracking-widest">${new Date(o.주문시간).toLocaleDateString()}</p><h4 class="text-[11px] font-black italic uppercase">${o.상품명}</h4><p class="text-[11px] font-black uppercase text-red-600">${o.총금액}</p></div><span class="order-status text-gray-400 font-bold uppercase tracking-widest">${o.상태 || 'Pending'}</span></div>`).join(''); }
             } catch (e) { container.innerHTML = 'Error'; }
         }
@@ -399,16 +397,16 @@
                 pw: document.getElementById('my-pw').value
             };
             const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') { 
-                alert('Saved Successfully'); 
-                // 로컬 정보 동기화
+            if(await res.text() === 'success') {
+                alert('Saved Successfully');
+                // 로컬 저장소 동기화
                 currentUser.name = data.name;
                 currentUser.phone = data.phone;
                 currentUser.postcode = data.postcode;
                 currentUser.address = data.address;
                 currentUser.addressDetail = data.addressDetail;
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser));
-                location.reload(); 
+                location.reload();
             } else { alert('Update Fail'); }
         }
 
