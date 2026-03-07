@@ -152,10 +152,10 @@
         <div class="w-full max-w-sm space-y-12">
             <h2 class="text-4xl font-black tracking-tighter italic text-center">SIGN IN</h2>
             <div class="space-y-4">
-                <input type="text" id="login-id" placeholder="ID" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold">
+                <input type="text" id="login-id" placeholder="ID" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold text-center">
                 <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PASSWORD" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold text-center">
                 <button onclick="handleLogin()" class="w-full bg-black text-white py-5 text-[11px] font-black tracking-widest mt-8 uppercase">Login</button>
-                <button onclick="showView('signup')" class="w-full text-[10px] text-gray-400 font-bold uppercase mt-4 underline italic">Create Account</button>
+                <button onclick="showView('signup')" class="w-full text-[10px] text-gray-400 font-bold uppercase mt-4 underline italic text-center">Create Account</button>
             </div>
         </div>
     </section>
@@ -176,24 +176,21 @@
     </footer>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz4qWGlYkd_QX47guV6Yr3mv6wi5HuehTATVdlEWYU2yyZzo_0Dw5cmEpFpMl_uZOrG/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbymsAT-gByE2QYAsPABgNnn5bGIFU741Xqv_I5VNQEbRbBgwgs-UtfMNWjZW6Jwz-ES/exec';
         let allProducts = [], cart = JSON.parse(localStorage.getItem('victshop_cart')) || [];
         let currentUser = JSON.parse(localStorage.getItem('victshop_user'));
         let currentProductObj = null, currentQty = 1, orderType = 'single', previousView = 'home';
 
-        // 1. 초기 로드 시 히스토리 감지 설정 추가
         async function init() { 
             updateAuthUI(); 
             await loadProducts(); 
             updateCartBadge(); 
 
-            // 브라우저 뒤로가기/앞으로가기 감지
             window.onpopstate = function(event) {
                 const view = event.state ? event.state.view : 'home';
-                showView(view, false); // 히스토리 추가 없이 화면만 전환
+                showView(view, false);
             };
 
-            // URL의 해시값(#)이 있으면 해당 뷰 표시, 없으면 홈 표시
             const initialView = window.location.hash.replace('#', '') || 'home';
             showView(initialView, false);
         }
@@ -255,15 +252,11 @@
             updateTotalPrice(); showView('detail');
         }
 
-        function goBackFromDetail() { 
-            // 상세 페이지에서 뒤로 갈 때는 단순히 브라우저 뒤로가기 실행
-            window.history.back();
-        }
+        function goBackFromDetail() { window.history.back(); }
         function filterByCat(cat) { const filtered = allProducts.filter(p => p.카테고리 === cat); renderCategoryView(cat, filtered); }
         function filterBySub(sub) { const filtered = allProducts.filter(p => p.서브카테고리 === sub); renderCategoryView(sub, filtered); }
         function renderCategoryView(title, products) { document.getElementById('category-title').innerText = title; document.getElementById('product-container').innerHTML = products.map(p => createProductCard(p)).join(''); showView('category'); }
 
-        // 2. 히스토리 기록 기능을 포함한 화면 전환 함수
         function showView(view, pushState = true) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById(view + '-view');
@@ -273,7 +266,6 @@
             if(view === 'mypage') loadMyPage();
             window.scrollTo(0,0);
 
-            // pushState가 true일 때만 브라우저 히스토리에 추가
             if (pushState) {
                 window.history.pushState({ view: view }, '', '#' + view);
             }
@@ -294,7 +286,7 @@
 
         function renderCart() {
             const container = document.getElementById('cart-items');
-            if(cart.length === 0) { container.innerHTML = '<p class="text-center py-20 text-gray-400 text-[11px] font-bold">Cart is empty.</p>'; document.getElementById('cart-total').innerText = '0 KRW'; return; }
+            if(cart.length === 0) { container.innerHTML = '<p class="text-center py-20 text-gray-400 text-[11px] font-bold text-center">Cart is empty.</p>'; document.getElementById('cart-total').innerText = '0 KRW'; return; }
             let total = 0;
             container.innerHTML = cart.map((item, idx) => {
                 total += (item.가격 * item.qty);
@@ -322,7 +314,7 @@
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
                 const orders = await res.json();
-                if(orders.length === 0) { container.innerHTML = '<p class="text-center py-20 text-gray-400 text-sm italic tracking-widest">NO ORDER HISTORY FOUND.</p>'; }
+                if(orders.length === 0) { container.innerHTML = '<p class="text-center py-20 text-gray-400 text-sm italic tracking-widest text-center">NO ORDER HISTORY FOUND.</p>'; }
                 else {
                     container.innerHTML = orders.map(o => {
                         const date = new Date(o.주문시간).toLocaleDateString();
@@ -333,26 +325,12 @@
                         const cancelBtn = (status === '주문접수') ? `<button onclick="handleCancelOrder('${o.주문시간}')" class="text-[9px] underline uppercase text-gray-400 hover:text-red-500 font-bold transition">Cancel Request</button>` : '';
                         let deliveryDisplay = '';
                         if(o.택배사 && o.송장번호) {
-                            deliveryDisplay = `
-                                <div class="delivery-info">
-                                    <span class="font-bold text-black uppercase tracking-tighter">Delivery:</span> ${o.택배사} / 
-                                    <span class="tracking-link" onclick="openTracking('${o.택배사}', '${o.송장번호}')">${o.송장번호}</span>
-                                    <p class="text-[9px] text-blue-500 mt-1">* 송장번호를 클릭하면 즉시 배송현황을 조회합니다.</p>
-                                </div>
-                            `;
+                            deliveryDisplay = `<div class="delivery-info"><span class="font-bold text-black uppercase tracking-tighter">Delivery:</span> ${o.택배사} / <span class="tracking-link" onclick="openTracking('${o.택배사}', '${o.송장번호}')">${o.송장번호}</span><p class="text-[9px] text-blue-500 mt-1">* 송장번호를 클릭하면 즉시 배송현황을 조회합니다.</p></div>`;
                         }
-                        return `
-                        <div class="border border-gray-100 p-6 space-y-4">
-                            <div class="flex justify-between items-start">
-                                <div><p class="text-[10px] text-gray-400 font-bold mb-1 tracking-widest">${date}</p><h4 class="text-[13px] font-black tracking-tighter">${o.상품명}</h4></div>
-                                <span class="order-status ${statusClass}">${status}</span>
-                            </div>
-                            <div class="flex justify-between items-end"><p class="text-[12px] font-black">${o.총금액}</p>${cancelBtn}</div>
-                            ${deliveryDisplay}
-                        </div>`;
+                        return `<div class="border border-gray-100 p-6 space-y-4"><div class="flex justify-between items-start"><div><p class="text-[10px] text-gray-400 font-bold mb-1 tracking-widest">${date}</p><h4 class="text-[13px] font-black tracking-tighter">${o.상품명}</h4></div><span class="order-status ${statusClass}">${status}</span></div><div class="flex justify-between items-end"><p class="text-[12px] font-black">${o.총금액}</p>${cancelBtn}</div>${deliveryDisplay}</div>`;
                     }).join('');
                 }
-            } catch (e) { container.innerHTML = '<p class="text-center py-20 text-red-400 font-bold">Error loading orders.</p>'; }
+            } catch (e) { container.innerHTML = '<p class="text-center py-20 text-red-400 font-bold text-center">Error loading orders.</p>'; }
         }
 
         async function handleCancelOrder(time) {
@@ -397,47 +375,32 @@
             showView('checkout');
         }
 
-    async function submitOrder() {
-    if(!document.getElementById('chk-agree').checked) return alert('약관 동의가 필요합니다.');
-    
-    const btn = document.getElementById('final-submit-btn');
-    btn.disabled = true;
-    btn.innerText = 'PROCESSING...';
-    
-    const totalPrice = document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, '');
-    const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty}개)` : cart.map(c => `${c.상품명} (${c.qty}개)`).join(', ');
-    
-    const finalData = { 
-        "상품명": productStr, 
-        "주문자명": document.getElementById('chk-orderer-name').value, 
-        "총금액": document.getElementById('chk-final-total').innerText,
-        "userId": currentUser.id 
-        // ... 기존 수령인 정보 동일
-    };
-
-    // 1. 구글 시트에 주문 데이터 전송
-    await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
-    
-    if(orderType === 'cart') { cart = []; localStorage.removeItem('victshop_cart'); }
-
-    // 2. 결제 유도 안내창 띄우기 (토스 송금 링크 예시)
-    const tossId = "승조님의토스아이디"; // 여기에 본인 토스 아이디 입력
-    const tossUrl = `https://toss.me/${tossId}/${totalPrice}`;
-
-    const payMessage = `
-        주문이 정상적으로 접수되었습니다!\n\n
-        [결제 안내]\n
-        금액: ${totalPrice.toLocaleString()}원\n
-        아래 확인 버튼을 누르면 결제(송금) 화면으로 이동합니다.\n
-        입금 확인 후 배송이 시작됩니다.
-    `;
-
-    if(confirm(payMessage)) {
-        window.location.href = tossUrl; // 토스 앱으로 이동
-    } else {
-        location.reload(); // 그냥 창 닫기
-    }
-}
+        async function submitOrder() {
+            if(!document.getElementById('chk-agree').checked) return alert('약관 동의가 필요합니다.');
+            const btn = document.getElementById('final-submit-btn');
+            btn.disabled = true; btn.innerText = 'PROCESSING...';
+            const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, ''));
+            const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty}개)` : cart.map(c => `${c.상품명} (${c.qty}개)`).join(', ');
+            const finalData = { 
+                "상품명": productStr, 
+                "주문자명": document.getElementById('chk-orderer-name').value, 
+                "주문자연락처": document.getElementById('chk-orderer-phone').value,
+                "수령인명": document.getElementById('chk-name').value,
+                "수령인연락처": document.getElementById('chk-phone').value,
+                "우편번호": document.getElementById('chk-postcode').value,
+                "기본주소": document.getElementById('chk-address').value,
+                "상세주소": document.getElementById('chk-address-detail').value,
+                "배송메시지": document.getElementById('chk-request').value,
+                "총금액": document.getElementById('chk-final-total').innerText,
+                "userId": currentUser.id 
+            };
+            await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
+            if(orderType === 'cart') { cart = []; localStorage.removeItem('victshop_cart'); }
+            
+            const tossUrl = `https://toss.me/victshop/${totalPrice}`;
+            const payMessage = `주문이 정상적으로 접수되었습니다!\n\n[결제 안내]\n금액: ${totalPrice.toLocaleString()}원\n\n확인 버튼을 누르면 결제 화면으로 이동합니다.\n입금 확인 후 배송이 시작됩니다.`;
+            if(confirm(payMessage)) { window.location.href = tossUrl; } else { location.reload(); }
+        }
 
         async function handleLogin() { 
             const id = document.getElementById('login-id').value;
