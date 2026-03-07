@@ -146,27 +146,57 @@
             </div>
         </section>
 
-        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-xs mx-auto">
-            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10">Register</h2>
-            <div class="space-y-2">
-                <input type="text" id="reg-id" placeholder="ID *" class="form-input">
-                <input type="password" id="reg-pw" placeholder="PW *" class="form-input">
-                <input type="text" id="reg-name" placeholder="Name *" class="form-input">
-                <input type="text" id="reg-phone" placeholder="Phone *" class="form-input">
-                <div class="flex gap-1">
-                    <input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-20">
-                    <button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button>
-                </div>
-                <input type="text" id="reg-address" readonly class="form-input">
-                <input type="text" id="reg-address-detail" placeholder="Detail" class="form-input">
-                <div class="pt-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <input type="checkbox" id="agree-terms"><label for="agree-terms" class="text-[9px] font-bold text-gray-400">Agree to terms</label>
-                    </div>
-                    <button onclick="handleSignup()" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase">Create</button>
-                </div>
-            </div>
-        </section>
+ <div class="space-y-10 pt-8 text-left border-t border-gray-100">
+    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6">Terms & Legal Agreement</h3>
+    
+    <div class="space-y-3">
+        <div class="flex items-center justify-between">
+            <label class="text-[10px] font-black uppercase tracking-tight text-gray-900">이용약관 동의 (필수)</label>
+            <input type="checkbox" class="w-3 h-3 border-black" id="agree-terms-check">
+        </div>
+        <div class="text-[10px] h-32 overflow-y-auto bg-gray-50 p-5 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+            <strong>제1조 (목적)</strong><br>
+            본 약관은 GongGamMall(이하 "몰")이 운영하는 인터넷 사이트 및 모바일 앱 서비스에서 제공하는 전자상거래 관련 서비스(이하 "서비스")를 이용함에 있어 "몰"과 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
+            <strong>제2조 (회원가입)</strong><br>
+            1. 이용자는 "몰"이 정한 가입 양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로서 회원가입을 신청합니다.<br>
+            2. "몰"은 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다.<br>
+            &nbsp;&nbsp;- 등록 내용에 허위, 기재누락, 오기가 있는 경우<br>
+            &nbsp;&nbsp;- 타인의 명의를 도용하여 가입한 경우<br>
+            &nbsp;&nbsp;- 사회의 안녕 질서 또는 미풍양속을 저해할 목적으로 신청한 경우<br><br>
+            <strong>제3조 (회원의 의무)</strong><br>
+            1. 회원은 본 약관 및 관계 법령을 준수해야 하며, 다음 행위를 하여서는 안 됩니다.<br>
+            &nbsp;&nbsp;- 신청 또는 변경 시 허위 내용의 등록<br>
+            &nbsp;&nbsp;- 타인의 정보 도용<br>
+            &nbsp;&nbsp;- "몰"에 게시된 정보의 변경<br>
+            &nbsp;&nbsp;- "몰"이 정한 정보 이외의 정보(컴퓨터 프로그램 등) 등의 송신 또는 게시<br><br>
+            <strong>제4조 (계약의 성립 및 결제)</strong><br>
+            1. "몰"은 이용자의 구매신청에 대하여 수신확인통지를 하며, 이 통지가 이용자에게 도달한 시점에 계약이 성립된 것으로 봅니다.<br>
+            2. 이용자는 "몰"이 지정한 무통장 입금(토스 송금 등) 또는 기타 결제 수단을 통해 대금을 지급해야 합니다.
+        </div>
+    </div>
+
+    <div class="space-y-3">
+        <div class="flex items-center justify-between">
+            <label class="text-[10px] font-black uppercase tracking-tight text-gray-900">개인정보 수집 및 이용 동의 (필수)</label>
+            <input type="checkbox" class="w-3 h-3 border-black" id="agree-privacy-check">
+        </div>
+        <div class="text-[10px] h-32 overflow-y-auto bg-gray-50 p-5 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+            GongGamMall은 고객님의 개인정보를 중요시하며, '개인정보 보호법' 등 관련 법규를 준수하고 있습니다.<br><br>
+            <strong>1. 수집하는 개인정보 항목</strong><br>
+            - 필수항목: 이름, 아이디(이메일), 비밀번호, 휴대전화번호, 주소(배송지 정보).<br>
+            - 자동수집항목: 서비스 이용 기록, 접속 로그, 쿠키, 접속 IP 정보.<br><br>
+            <strong>2. 개인정보의 수집 및 이용 목적</strong><br>
+            - 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산, 콘텐츠 제공, 구매 및 대금 결제, 물품배송 또는 청구지 등 발송.<br>
+            - 회원 관리: 회원제 서비스 이용에 따른 본인확인, 개인 식별, 불량회원의 부정 이용 방지와 비인가 사용 방지, 가입 의사 확인, 불만 처리 등 민원 처리, 고지사항 전달.<br><br>
+            <strong>3. 개인정보의 보유 및 이용 기간</strong><br>
+            - 이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적이 달성되면 지체 없이 파기합니다.<br>
+            - 단, 전자상거래 등에서의 소비자 보호에 관한 법률 등 관계 법령의 규정에 의하여 보존할 필요가 있는 경우 해당 법령에서 정한 기간 동안 회원 정보를 보관합니다.<br>
+            &nbsp;&nbsp;* 계약 또는 청약철회 등에 관한 기록: 5년<br>
+            &nbsp;&nbsp;* 대금결제 및 재화 등의 공급에 관한 기록: 5년<br>
+            &nbsp;&nbsp;* 소비자의 불만 또는 분쟁처리에 관한 기록: 3년
+        </div>
+    </div>
+</div>
 
         <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
@@ -363,12 +393,19 @@
             } else { alert('Error'); } 
         }
 
-        async function handleSignup() {
-            const data = { id: document.getElementById('reg-id').value, pw: document.getElementById('reg-pw').value, name: document.getElementById('reg-name').value, phone: document.getElementById('reg-phone').value, postcode: document.getElementById('reg-postcode').value, address: document.getElementById('reg-address').value, addressDetail: document.getElementById('reg-address-detail').value };
-            if(!data.id || !data.pw || !data.name || !data.phone || !data.address) return alert('Check fields');
-            const res = await fetch(`${WEB_APP_URL}?action=signup&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') { alert('Done'); showView('login'); } else { alert('Fail'); }
-        }
+async function handleSignup() {
+    // ... 기존 데이터 수집 로직 ...
+    
+    // 수정된 체크박스 ID로 확인
+    const termsOk = document.getElementById('agree-terms-check').checked;
+    const privacyOk = document.getElementById('agree-privacy-check').checked;
+    
+    if(!termsOk || !privacyOk) {
+        return alert('모든 필수 약관에 동의해 주셔야 가입이 가능합니다.');
+    }
+    
+    // ... 이후 fetch API 실행 ...
+}
 
         function goToCheckout(type) {
             if(!currentUser) return showView('login');
