@@ -10,17 +10,13 @@
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: #111; word-break: keep-all; }
         .hidden { display: none; }
-        /* 네온 블루 포인트를 활용한 미니멀 디자인 */
-        .text-accent { color: #2563eb; }
-        .bg-accent { background-color: #2563eb; }
         .header-minimal { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #f0f0f0; }
         .nav-tab { font-size: 13px; font-weight: 700; color: #888; transition: all 0.2s; position: relative; }
         .nav-tab:hover, .nav-tab.active { color: #111; }
         .nav-tab.active::after { content: ''; position: absolute; bottom: -12px; left: 0; width: 100%; height: 2px; background: #111; }
-        /* 그리드 디자인 최적화 */
         .product-grid-item { border-radius: 0px; transition: opacity 0.3s; }
         .product-grid-item:hover { opacity: 0.7; }
-        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; }
+        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; font-size: 13px; }
         .form-input:focus { border-color: #111; background: #fff; }
         .order-status { font-size: 10px; padding: 3px 6px; border: 1px solid #ddd; border-radius: 2px; }
         ::-webkit-scrollbar { width: 5px; }
@@ -47,8 +43,7 @@
     <main class="min-h-screen">
         <section id="home-view" class="view-section">
             <div class="max-w-screen-2xl mx-auto px-6 py-12">
-                <div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12">
-                    </div>
+                <div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div>
             </div>
         </section>
 
@@ -86,18 +81,13 @@
                     </div>
                 </div>
             </div>
-            <div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto">
-                <img id="detail-long-img" src="" class="w-full h-auto">
-            </div>
+            <div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto"><img id="detail-long-img" src="" class="w-full h-auto"></div>
         </section>
 
         <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto">
             <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Shopping Bag</h2>
             <div id="cart-items" class="space-y-10 mb-12"></div>
-            <div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10">
-                <span class="text-xs font-black uppercase">Total Amount</span>
-                <span id="cart-total" class="text-2xl font-black">0 KRW</span>
-            </div>
+            <div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase">Continue</button>
                 <button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Order</button>
@@ -112,10 +102,7 @@
                         <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Shipping Information</h3>
                         <input type="text" id="chk-orderer-name" placeholder="Name" class="form-input">
                         <input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input">
-                        <div class="flex gap-1">
-                            <input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24">
-                            <button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button>
-                        </div>
+                        <div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button></div>
                         <input type="text" id="chk-address" readonly class="form-input">
                         <input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input">
                         <input type="text" id="chk-request" placeholder="Message" class="form-input">
@@ -124,10 +111,7 @@
                 <div class="bg-gray-50 p-10 h-fit">
                     <h3 class="text-[11px] font-black uppercase mb-8">Summary</h3>
                     <div id="checkout-items" class="space-y-2 mb-8 border-b border-gray-200 pb-8 text-xs font-medium"></div>
-                    <div class="flex justify-between items-end mb-10">
-                        <span class="text-xs font-black uppercase">Final Total</span>
-                        <span id="chk-final-total" class="text-2xl font-black"></span>
-                    </div>
+                    <div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase">Final Total</span><span id="chk-final-total" class="text-2xl font-black"></span></div>
                     <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase">Pay Now</button>
                     <div class="mt-4 flex items-center gap-2"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase">I agree to the terms.</label></div>
                 </div>
@@ -135,73 +119,48 @@
         </section>
 
         <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center">
-            <div class="w-full max-w-xs space-y-10">
-                <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase">Sign In</h2>
+            <div class="w-full max-w-xs space-y-10 text-center">
+                <h2 class="text-xs font-black tracking-[0.3em] uppercase">Sign In</h2>
                 <div class="space-y-2">
-                    <input type="text" id="login-id" placeholder="ID" class="form-input !bg-white !border-gray-200 text-center">
-                    <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input !bg-white !border-gray-200 text-center">
+                    <input type="text" id="login-id" placeholder="ID" class="form-input text-center">
+                    <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input text-center">
                     <button onclick="handleLogin()" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4">Login</button>
                     <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline">Register</button>
                 </div>
             </div>
         </section>
 
- <div class="space-y-10 pt-8 text-left border-t border-gray-100">
-    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6">Terms & Legal Agreement</h3>
-    
-    <div class="space-y-3">
-        <div class="flex items-center justify-between">
-            <label class="text-[10px] font-black uppercase tracking-tight text-gray-900">이용약관 동의 (필수)</label>
-            <input type="checkbox" class="w-3 h-3 border-black" id="agree-terms-check">
-        </div>
-        <div class="text-[10px] h-32 overflow-y-auto bg-gray-50 p-5 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-            <strong>제1조 (목적)</strong><br>
-            본 약관은 GongGamMall(이하 "몰")이 운영하는 인터넷 사이트 및 모바일 앱 서비스에서 제공하는 전자상거래 관련 서비스(이하 "서비스")를 이용함에 있어 "몰"과 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
-            <strong>제2조 (회원가입)</strong><br>
-            1. 이용자는 "몰"이 정한 가입 양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로서 회원가입을 신청합니다.<br>
-            2. "몰"은 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다.<br>
-            &nbsp;&nbsp;- 등록 내용에 허위, 기재누락, 오기가 있는 경우<br>
-            &nbsp;&nbsp;- 타인의 명의를 도용하여 가입한 경우<br>
-            &nbsp;&nbsp;- 사회의 안녕 질서 또는 미풍양속을 저해할 목적으로 신청한 경우<br><br>
-            <strong>제3조 (회원의 의무)</strong><br>
-            1. 회원은 본 약관 및 관계 법령을 준수해야 하며, 다음 행위를 하여서는 안 됩니다.<br>
-            &nbsp;&nbsp;- 신청 또는 변경 시 허위 내용의 등록<br>
-            &nbsp;&nbsp;- 타인의 정보 도용<br>
-            &nbsp;&nbsp;- "몰"에 게시된 정보의 변경<br>
-            &nbsp;&nbsp;- "몰"이 정한 정보 이외의 정보(컴퓨터 프로그램 등) 등의 송신 또는 게시<br><br>
-            <strong>제4조 (계약의 성립 및 결제)</strong><br>
-            1. "몰"은 이용자의 구매신청에 대하여 수신확인통지를 하며, 이 통지가 이용자에게 도달한 시점에 계약이 성립된 것으로 봅니다.<br>
-            2. 이용자는 "몰"이 지정한 무통장 입금(토스 송금 등) 또는 기타 결제 수단을 통해 대금을 지급해야 합니다.
-        </div>
-    </div>
+        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto">
+            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10">Register</h2>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-2"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
+                <div class="grid grid-cols-2 gap-2"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div>
+                <div class="flex gap-1"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase">Find</button></div>
+                <input type="text" id="reg-address" readonly class="form-input"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input">
+                
+                <div class="pt-8 space-y-6">
+                    <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400">Terms & Agreement</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div>
+                        <div class="text-[9px] h-20 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+                            <strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다... (중략)
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div>
+                        <div class="text-[9px] h-20 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium">
+                            <strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 배송지주소.<br><strong>2. 수집목적</strong>: 서비스 제공, 회원관리, 물품배송 처리 등... (중략)
+                        </div>
+                    </div>
+                </div>
 
-    <div class="space-y-3">
-        <div class="flex items-center justify-between">
-            <label class="text-[10px] font-black uppercase tracking-tight text-gray-900">개인정보 수집 및 이용 동의 (필수)</label>
-            <input type="checkbox" class="w-3 h-3 border-black" id="agree-privacy-check">
-        </div>
-        <div class="text-[10px] h-32 overflow-y-auto bg-gray-50 p-5 border border-gray-100 text-gray-500 leading-relaxed font-medium">
-            GongGamMall은 고객님의 개인정보를 중요시하며, '개인정보 보호법' 등 관련 법규를 준수하고 있습니다.<br><br>
-            <strong>1. 수집하는 개인정보 항목</strong><br>
-            - 필수항목: 이름, 아이디(이메일), 비밀번호, 휴대전화번호, 주소(배송지 정보).<br>
-            - 자동수집항목: 서비스 이용 기록, 접속 로그, 쿠키, 접속 IP 정보.<br><br>
-            <strong>2. 개인정보의 수집 및 이용 목적</strong><br>
-            - 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산, 콘텐츠 제공, 구매 및 대금 결제, 물품배송 또는 청구지 등 발송.<br>
-            - 회원 관리: 회원제 서비스 이용에 따른 본인확인, 개인 식별, 불량회원의 부정 이용 방지와 비인가 사용 방지, 가입 의사 확인, 불만 처리 등 민원 처리, 고지사항 전달.<br><br>
-            <strong>3. 개인정보의 보유 및 이용 기간</strong><br>
-            - 이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적이 달성되면 지체 없이 파기합니다.<br>
-            - 단, 전자상거래 등에서의 소비자 보호에 관한 법률 등 관계 법령의 규정에 의하여 보존할 필요가 있는 경우 해당 법령에서 정한 기간 동안 회원 정보를 보관합니다.<br>
-            &nbsp;&nbsp;* 계약 또는 청약철회 등에 관한 기록: 5년<br>
-            &nbsp;&nbsp;* 대금결제 및 재화 등의 공급에 관한 기록: 5년<br>
-            &nbsp;&nbsp;* 소비자의 불만 또는 분쟁처리에 관한 기록: 3년
-        </div>
-    </div>
-</div>
+                <button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10">Create Account</button>
+            </div>
+        </section>
 
         <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
-                <div class="space-y-10">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Profile</h3>
+                <div class="space-y-10"><h3 class="text-xs font-black uppercase border-b border-black pb-4">Profile</h3>
                     <div class="space-y-4">
                         <div><label class="text-[9px] font-black text-gray-400 uppercase">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
                         <div><label class="text-[9px] font-black text-gray-400 uppercase">Name</label><input type="text" id="my-name" class="form-input"></div>
@@ -209,22 +168,15 @@
                         <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase">Save</button>
                     </div>
                 </div>
-                <div class="lg:col-span-3 space-y-10">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4">Order History</h3>
-                    <div id="my-orders-list" class="divide-y divide-gray-100"></div>
-                </div>
+                <div class="lg:col-span-3 space-y-10"><h3 class="text-xs font-black uppercase border-b border-black pb-4">Order History</h3><div id="my-orders-list" class="divide-y divide-gray-100"></div></div>
             </div>
         </section>
     </main>
 
     <footer class="border-t border-gray-100 py-20 bg-white">
-        <div class="max-w-screen-2xl mx-auto px-6 text-center">
-            <h2 class="text-sm font-black uppercase tracking-[0.4em] mb-10">GongGamMall</h2>
-            <div class="text-[10px] font-bold text-gray-400 space-y-1 mb-10">
-                <p>CEO: 김원석 | Business License: [과세사업자]</p>
-                <p>Location: -</p>
-                <p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p>
-            </div>
+        <div class="max-w-screen-2xl mx-auto px-6 text-center text-[10px] font-bold text-gray-400">
+            <h2 class="text-sm font-black uppercase tracking-[0.4em] mb-10 text-black">GongGamMall</h2>
+            <div class="space-y-1 mb-10"><p>CEO: 김원석 | Business License: [과세사업자]</p><p>Location: -</p><p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p></div>
             <p class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">© 2026 GongGamMall. All rights reserved.</p>
         </div>
     </footer>
@@ -256,63 +208,40 @@
             }).open();
         }
 
-      // 1. 상품 로드 (유효한 데이터만 필터링)
         async function loadProducts() {
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
                 const rawData = await res.json(); 
-                
-                // 상품명이 비어있지 않은 실제 상품만 필터링
                 allProducts = rawData.filter(p => p.상품명 && String(p.상품명).trim() !== "");
-                
                 renderNav(); 
                 renderMainList(); 
             } catch (e) { console.error("Data Error:", e); }
         }
 
-        // 2. 메인 리스트 렌더링 (최신순 정렬 적용)
-        function renderMainList() {
-            // 스프레드시트 아래에 쓴 상품이 위로 오도록 역순 정렬
-            const displayProducts = [...allProducts].reverse(); 
-            
-            if (displayProducts.length === 0) {
-                document.getElementById('top5-container').innerHTML = `
-                    <p class="col-span-full text-center py-20 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
-                        NO PRODUCTS REGISTERED.
-                    </p>`;
-                return;
-            }
+        function renderNav() {
+            const navData = {}; allProducts.forEach(p => { if(p.카테고리) { if(!navData[p.카테고리]) navData[p.카테고리] = new Set(); if(p.서브카테고리) navData[p.카테고리].add(p.서브카테고리); }});
+            document.getElementById('main-nav').innerHTML = Object.keys(navData).map(cat => `<button class="nav-tab uppercase shrink-0" onclick="filterByCat('${cat}')">${cat}</button>`).join('');
+        }
 
+        function renderMainList() {
+            const displayProducts = [...allProducts].reverse(); 
             document.getElementById('top5-container').innerHTML = displayProducts.map(p => createProductCard(p)).join('');
         }
 
-        // 3. 상품 카드 생성 (디자인 유지)
         function createProductCard(p) {
-            return `
-                <div class="product-grid-item cursor-pointer group" onclick="showProductDetail('${p.상품명}')">
-                    <div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden">
-                        <img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="space-y-1">
-                        <p class="text-[9px] font-black text-gray-300 uppercase tracking-widest">${p.브랜드 || 'GGM'}</p>
-                        <h3 class="text-[11px] font-bold text-gray-900 line-clamp-1">${p.상품명}</h3>
-                        <p class="text-[11px] font-black">${Number(p.가격).toLocaleString()} KRW</p>
-                    </div>
-                </div>`;
+            return `<div class="product-grid-item cursor-pointer group" onclick="showProductDetail('${p.상품명}')"><div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden"><img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div><div class="space-y-1"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest">${p.브랜드 || 'GGM'}</p><h3 class="text-[11px] font-bold text-gray-900 line-clamp-1">${p.상품명}</h3><p class="text-[11px] font-black">${Number(p.가격).toLocaleString()} KRW</p></div></div>`;
         }
 
         function showProductDetail(name) {
             currentProductObj = allProducts.find(p => p.상품명 === name);
             if(!currentProductObj) return;
-            currentQty = 1; 
-            document.getElementById('order-qty').value = 1;
+            currentQty = 1; document.getElementById('order-qty').value = 1;
             document.getElementById('detail-img').src = currentProductObj.이미지URL;
             document.getElementById('detail-brand').innerText = currentProductObj.브랜드 || 'GGM';
             document.getElementById('detail-name').innerText = currentProductObj.상품명;
             document.getElementById('detail-price-val').innerText = Number(currentProductObj.가격).toLocaleString();
             document.getElementById('detail-long-img').src = currentProductObj.상세이미지URL || '';
-            updateTotalPrice(); 
-            showView('detail');
+            updateTotalPrice(); showView('detail');
         }
 
         function filterByCat(cat) { 
@@ -343,37 +272,16 @@
             const idx = cart.findIndex(c => c.상품명 === item.상품명);
             if(idx > -1) { cart[idx].qty += currentQty; } else { cart.push(item); }
             localStorage.setItem('ggm_cart', JSON.stringify(cart));
-            updateCartBadge(); 
-            if(confirm('Added. Go to Cart?')) showView('cart'); 
+            updateCartBadge(); if(confirm('Added to Bag. Go to Cart?')) showView('cart'); 
         }
 
         function renderCart() {
             const container = document.getElementById('cart-items');
-            if(cart.length === 0) { 
-                container.innerHTML = '<p class="text-center py-20 text-[10px] font-bold text-gray-300 uppercase">Bag is empty</p>'; 
-                document.getElementById('cart-total').innerText = '0 KRW'; 
-                return; 
-            }
+            if(cart.length === 0) { container.innerHTML = '<p class="text-center py-20 text-[10px] font-bold text-gray-300 uppercase">Bag is empty</p>'; document.getElementById('cart-total').innerText = '0 KRW'; return; }
             let total = 0;
             container.innerHTML = cart.map((item, idx) => {
                 total += (item.가격 * item.qty);
-                return `
-                    <div class="flex gap-10 items-center border-b border-gray-50 pb-10">
-                        <img src="${item.이미지URL}" class="w-20 h-24 object-cover">
-                        <div class="flex-1 space-y-1">
-                            <p class="text-[9px] font-black text-gray-300 uppercase">${item.브랜드}</p>
-                            <h4 class="text-[11px] font-bold">${item.상품명}</h4>
-                            <p class="text-[11px] font-black">${(item.가격*item.qty).toLocaleString()} KRW</p>
-                        </div>
-                        <div class="flex items-center gap-6">
-                            <div class="flex border border-gray-100">
-                                <button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold">-</button>
-                                <span class="w-8 text-center text-[10px] font-bold leading-8">${item.qty}</span>
-                                <button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold">+</button>
-                            </div>
-                            <button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline">Remove</button>
-                        </div>
-                    </div>`;
+                return `<div class="flex gap-10 items-center border-b border-gray-50 pb-10"><img src="${item.이미지URL}" class="w-20 h-24 object-cover"><div class="flex-1 space-y-1"><p class="text-[9px] font-black text-gray-300 uppercase">${item.브랜드}</p><h4 class="text-[11px] font-bold">${item.상품명}</h4><p class="text-[11px] font-black">${(item.가격*item.qty).toLocaleString()} KRW</p></div><div class="flex items-center gap-6"><div class="flex border border-gray-100"><button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold">-</button><span class="w-8 text-center text-[10px] font-bold leading-8">${item.qty}</span><button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold">+</button></div><button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline">Remove</button></div></div>`;
             }).join('');
             document.getElementById('cart-total').innerText = total.toLocaleString() + ' KRW';
         }
@@ -386,32 +294,20 @@
             const pw = document.getElementById('login-pw').value;
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
-            if(data.result === 'success') { 
-                currentUser = { id, name: data.name, phone: data.phone }; 
-                localStorage.setItem('ggm_user', JSON.stringify(currentUser)); 
-                location.reload(); 
-            } else { alert('Error'); } 
+            if(data.result === 'success') { currentUser = { id, name: data.name, phone: data.phone }; localStorage.setItem('ggm_user', JSON.stringify(currentUser)); location.reload(); } else { alert('Login Fail'); } 
         }
 
-async function handleSignup() {
-    // ... 기존 데이터 수집 로직 ...
-    
-    // 수정된 체크박스 ID로 확인
-    const termsOk = document.getElementById('agree-terms-check').checked;
-    const privacyOk = document.getElementById('agree-privacy-check').checked;
-    
-    if(!termsOk || !privacyOk) {
-        return alert('모든 필수 약관에 동의해 주셔야 가입이 가능합니다.');
-    }
-    
-    // ... 이후 fetch API 실행 ...
-}
+        async function handleSignup() {
+            const data = { id: document.getElementById('reg-id').value, pw: document.getElementById('reg-pw').value, name: document.getElementById('reg-name').value, phone: document.getElementById('reg-phone').value, postcode: document.getElementById('reg-postcode').value, address: document.getElementById('reg-address').value, addressDetail: document.getElementById('reg-address-detail').value };
+            if(!data.id || !data.pw || !data.name || !data.phone || !data.address) return alert('Check fields');
+            if(!document.getElementById('agree-terms-check').checked || !document.getElementById('agree-privacy-check').checked) return alert('Agree to terms');
+            const res = await fetch(`${WEB_APP_URL}?action=signup&data=${encodeURIComponent(JSON.stringify(data))}`);
+            if(await res.text() === 'success') { alert('Done'); showView('login'); } else { alert('Fail'); }
+        }
 
         function goToCheckout(type) {
             if(!currentUser) return showView('login');
-            orderType = type; 
-            let total = 0; 
-            const container = document.getElementById('checkout-items');
+            orderType = type; let total = 0; const container = document.getElementById('checkout-items');
             if(type === 'single') {
                 total = Number(currentProductObj.가격) * currentQty;
                 container.innerHTML = `<div class="flex justify-between"><span>${currentProductObj.상품명} (${currentQty})</span><span>${total.toLocaleString()}</span></div>`;
@@ -431,22 +327,9 @@ async function handleSignup() {
             btn.disabled = true; 
             const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, ''));
             const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty})` : cart.map(c => `${c.상품명} (${c.qty})`).join(', ');
-            const finalData = { 
-                "상품명": productStr, 
-                "주문자명": document.getElementById('chk-orderer-name').value, 
-                "주문자연락처": document.getElementById('chk-orderer-phone').value,
-                "수령인명": document.getElementById('chk-orderer-name').value, // 기본값
-                "수령인연락처": document.getElementById('chk-orderer-phone').value,
-                "우편번호": document.getElementById('chk-postcode').value,
-                "기본주소": document.getElementById('chk-address').value,
-                "상세주소": document.getElementById('chk-address-detail').value,
-                "배송메시지": document.getElementById('chk-request').value,
-                "총금액": document.getElementById('chk-final-total').innerText,
-                "userId": currentUser.id 
-            };
+            const finalData = { "상품명": productStr, "주문자명": document.getElementById('chk-orderer-name').value, "주문자연락처": document.getElementById('chk-orderer-phone').value, "수령인명": document.getElementById('chk-orderer-name').value, "수령인연락처": document.getElementById('chk-orderer-phone').value, "우편번호": document.getElementById('chk-postcode').value, "기본주소": document.getElementById('chk-address').value, "상세주소": document.getElementById('chk-address-detail').value, "배송메시지": document.getElementById('chk-request').value, "총금액": document.getElementById('chk-final-total').innerText, "userId": currentUser.id };
             await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
             if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
-            
             const tossUrl = `https://toss.me/victshop/${totalPrice}`;
             if(confirm('Order Complete. Transfer?')) { window.location.href = tossUrl; } else { location.reload(); }
         }
@@ -461,36 +344,18 @@ async function handleSignup() {
                 const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
                 const orders = await res.json();
                 if(orders.length === 0) { container.innerHTML = '<p class="py-20 text-[10px] font-bold text-gray-300 uppercase">No orders</p>'; }
-                else {
-                    container.innerHTML = orders.map(o => `
-                        <div class="py-8 flex justify-between items-start">
-                            <div class="space-y-1">
-                                <p class="text-[9px] font-black text-gray-300">${new Date(o.주문시간).toLocaleDateString()}</p>
-                                <h4 class="text-[11px] font-black">${o.상품명}</h4>
-                                <p class="text-[11px] font-black uppercase">${o.총금액}</p>
-                            </div>
-                            <span class="order-status text-gray-400 font-bold uppercase">${o.상태 || 'Pending'}</span>
-                        </div>`).join('');
-                }
+                else { container.innerHTML = orders.map(o => `<div class="py-8 flex justify-between items-start"><div class="space-y-1"><p class="text-[9px] font-black text-gray-300">${new Date(o.주문시간).toLocaleDateString()}</p><h4 class="text-[11px] font-black">${o.상품명}</h4><p class="text-[11px] font-black uppercase">${o.총금액}</p></div><span class="order-status text-gray-400 font-bold uppercase">${o.상태 || 'Pending'}</span></div>`).join(''); }
             } catch (e) { container.innerHTML = 'Error'; }
         }
 
         async function handleUpdateProfile() {
             const data = { id: currentUser.id, name: document.getElementById('my-name').value, phone: document.getElementById('my-phone').value };
             await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
-            alert('Saved');
-            location.reload();
+            alert('Saved'); location.reload();
         }
 
         function handleLogout() { localStorage.removeItem('ggm_user'); location.reload(); }
-        function updateAuthUI() { 
-            if(currentUser) { 
-                document.getElementById('user-info-btn').innerText = currentUser.id.toUpperCase(); 
-                document.getElementById('user-info-btn').classList.remove('hidden'); 
-                document.getElementById('login-btn').classList.add('hidden'); 
-                document.getElementById('logout-btn').classList.remove('hidden'); 
-            } 
-        }
+        function updateAuthUI() { if(currentUser) { document.getElementById('user-info-btn').innerText = currentUser.id.toUpperCase(); document.getElementById('user-info-btn').classList.remove('hidden'); document.getElementById('login-btn').classList.add('hidden'); document.getElementById('logout-btn').classList.remove('hidden'); } }
         init();
     </script>
 </body>
