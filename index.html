@@ -16,7 +16,7 @@
         .nav-tab.active::after { content: ''; position: absolute; bottom: -12px; left: 0; width: 100%; height: 2px; background: #111; }
         .product-grid-item { border-radius: 0px; transition: opacity 0.3s; }
         .product-grid-item:hover { opacity: 0.7; }
-        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; font-size: 13px; text-align: left; }
+        .form-input { border: 1px solid #eee; padding: 14px; outline: none; width: 100%; background: #fafafa; border-radius: 4px; font-size: 13px; text-align: left; font-weight: 700; }
         .form-input:focus { border-color: #111; background: #fff; }
         .order-status { font-size: 10px; padding: 3px 6px; border: 1px solid #ddd; border-radius: 2px; font-weight: 800; }
         ::-webkit-scrollbar { width: 5px; }
@@ -26,349 +26,183 @@
 <body>
     <header class="sticky top-0 z-[200] header-minimal">
         <div class="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between text-left">
-            <h1 class="text-xl font-black tracking-widest cursor-pointer uppercase" onclick="showMain()">GongGamMall</h1>
+            <h1 class="text-xl font-black tracking-widest cursor-pointer uppercase italic" onclick="showMain()">GongGamMall</h1>
             <div class="flex items-center gap-8 text-[11px] font-black uppercase tracking-tighter">
                 <button id="user-info-btn" class="hidden border-b border-black" onclick="showView('mypage')"></button>
-                <button onclick="showView('cart')" class="hover:opacity-50 transition font-bold font-bold uppercase">Cart (<span id="cart-count">0</span>)</button>
-                <button id="login-btn" onclick="showView('login')" class="hover:opacity-50 transition font-bold font-bold uppercase">Sign In</button>
-                <button id="logout-btn" class="hidden text-red-500 font-bold font-bold uppercase" onclick="handleLogout()">Logout</button>
+                <button onclick="showView('cart')" class="hover:opacity-50 transition font-black">Cart (<span id="cart-count">0</span>)</button>
+                <button id="login-btn" onclick="showView('login')" class="hover:opacity-50 transition font-black">Sign In</button>
+                <button id="logout-btn" class="hidden text-red-500 font-black" onclick="handleLogout()">Logout</button>
             </div>
         </div>
         <nav class="max-w-screen-2xl mx-auto px-6 h-14 flex gap-10 items-center overflow-x-auto no-scrollbar border-t border-gray-50">
-            <button class="nav-tab active shrink-0 font-bold font-bold uppercase" onclick="showMain()">ALL PRODUCTS</button>
+            <button class="nav-tab active shrink-0 font-black uppercase" onclick="showMain()">ALL PRODUCTS</button>
             <div id="main-nav" class="flex gap-10 h-full items-center shrink-0"></div>
         </nav>
     </header>
 
-    <main class="min-h-screen text-left">
-        <section id="home-view" class="view-section"><div class="max-w-screen-2xl mx-auto px-6 py-12"><div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></div></section>
-        <section id="category-view" class="view-section hidden py-12 px-6 max-w-screen-2xl mx-auto"><h2 id="category-title" class="text-xs font-black mb-10 tracking-widest uppercase border-b border-black pb-4 font-bold uppercase">CATEGORY</h2><div id="product-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></section>
-        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto"><div class="grid grid-cols-1 md:grid-cols-2 gap-20"><div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div><div class="flex flex-col justify-start pt-10"><p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest font-bold uppercase"></p><h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter font-bold uppercase"></h2><div class="mb-10 pb-10 border-b border-gray-100 font-bold uppercase"><span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1">KRW</span></div><div class="space-y-8 font-bold uppercase"><div class="flex items-center justify-between font-bold uppercase"><span class="text-[11px] font-black uppercase tracking-widest font-bold uppercase">Quantity</span><div class="flex items-center border border-black font-bold uppercase"><button onclick="changeQty(-1)" class="w-10 h-10">-</button><input type="text" id="order-qty" value="1" readonly class="w-10 text-center text-sm font-bold font-bold uppercase"><button onclick="changeQty(1)" class="w-10 h-10">+</button></div></div><div class="flex items-center justify-between pt-4 border-t border-black font-bold uppercase font-bold uppercase"><span class="text-[11px] font-black uppercase font-bold uppercase">Total</span><span id="total-price-display" class="text-xl font-black text-red-600 font-bold uppercase"></span></div><div class="grid grid-cols-2 gap-2 pt-6 font-bold uppercase"><button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase font-bold uppercase">Add to Cart</button><button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase font-bold uppercase">Buy Now</button></div></div></div></div><div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto"><img id="detail-long-img" src="" class="w-full h-auto"></div></section>
-        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left font-bold uppercase">Shopping Bag</h2><div id="cart-items" class="space-y-10 mb-12 text-left font-bold uppercase"></div><div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10 font-bold uppercase"><span class="text-xs font-black uppercase font-bold uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black text-red-600 font-bold uppercase font-bold uppercase">0 KRW</span></div><div class="grid grid-cols-2 gap-2 font-bold uppercase"><button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase font-bold uppercase">Continue</button><button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase font-bold uppercase">Order</button></div></section>
+    <main class="min-h-screen">
+        <section id="home-view" class="view-section"><div class="max-w-screen-2xl mx-auto px-6 py-12 text-left"><div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></div></section>
+        <section id="category-view" class="view-section hidden py-12 px-6 max-w-screen-2xl mx-auto text-left"><h2 id="category-title" class="text-xs font-black mb-10 tracking-widest uppercase border-b border-black pb-4 font-black">CATEGORY</h2><div id="product-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12 text-left"></div></section>
+        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto text-left"><div class="grid grid-cols-1 md:grid-cols-2 gap-20"><div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div><div class="flex flex-col justify-start pt-10"><p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest font-black"></p><h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter uppercase font-black text-left"></h2><div class="mb-10 pb-10 border-b border-gray-100 font-black text-left"><span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1">KRW</span></div><div class="space-y-8 font-black"><div class="flex items-center justify-between"><span class="text-[11px] font-black uppercase tracking-widest">Quantity</span><div class="flex items-center border border-black"><button onclick="changeQty(-1)" class="w-10 h-10">-</button><input type="text" id="order-qty" value="1" readonly class="w-10 text-center text-sm font-black"><button onclick="changeQty(1)" class="w-10 h-10">+</button></div></div><div class="flex items-center justify-between pt-4 border-t border-black font-black"><span class="text-[11px] font-black uppercase font-black">Total</span><span id="total-price-display" class="text-xl font-black text-red-600"></span></div><div class="grid grid-cols-2 gap-2 pt-6 text-left"><button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase font-black">Add to Cart</button><button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase font-black">Buy Now</button></div></div></div></div><div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto"><img id="detail-long-img" src="" class="w-full h-auto"></div></section>
+        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto text-left font-black"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left font-black">Shopping Bag</h2><div id="cart-items" class="space-y-10 mb-12"></div><div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10 font-black"><span class="text-xs font-black uppercase font-black">Total Amount</span><span id="cart-total" class="text-2xl font-black text-red-600 font-black">0 KRW</span></div><div class="grid grid-cols-2 gap-2 font-black"><button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase font-black">Continue</button><button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase font-black">Order</button></div></section>
 
-        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-xl mx-auto">
-            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left font-bold uppercase">Checkout</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
-                <div class="space-y-12 text-left font-bold uppercase">
-                    <div class="space-y-4 font-bold uppercase text-left">
-                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400 font-bold uppercase">Shipping Information</h3>
+        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-xl mx-auto text-left font-black">
+            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left font-black">Checkout</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 font-black text-left">
+                <div class="space-y-12 text-left">
+                    <div class="space-y-4">
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400 font-black">Shipping Information</h3>
                         <input type="text" id="chk-orderer-name" placeholder="Name" class="form-input">
                         <input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input">
-                        <div class="flex gap-1 font-bold uppercase text-left"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24 font-bold uppercase text-left"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase font-bold uppercase shrink-0">Find</button></div>
-                        <input type="text" id="chk-address" readonly class="form-input font-bold uppercase text-left">
-                        <input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input font-bold uppercase text-left font-bold uppercase text-left">
-                        <input type="text" id="chk-request" placeholder="Message" class="form-input font-bold uppercase text-left">
+                        <div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24 text-left"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0 font-black">Find</button></div>
+                        <input type="text" id="chk-address" readonly class="form-input font-black text-left"><input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input font-black text-left"><input type="text" id="chk-request" placeholder="Message" class="form-input font-black text-left">
                     </div>
-                    <div class="space-y-4 font-bold uppercase text-left">
-                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400 font-bold uppercase">Order Items</h3>
-                        <div id="checkout-items" class="space-y-4 font-bold uppercase text-left"></div>
+                    <div class="space-y-4 font-black">
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400 font-black">Order Items</h3>
+                        <div id="checkout-items" class="space-y-4 font-black"></div>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-10 h-fit text-left font-bold uppercase">
-                    <h3 class="text-[11px] font-black uppercase mb-8 font-bold uppercase">Summary</h3>
-                    <div class="flex justify-between items-end mb-10 font-bold uppercase"><span class="text-xs font-black uppercase font-bold uppercase">Final Total</span><span id="chk-final-total" class="text-3xl font-black text-red-600 font-bold uppercase"></span></div>
-                    <div class="pt-8 border-t border-gray-200 space-y-4 font-bold uppercase">
-                        <h4 class="text-[10px] font-bold text-gray-400 uppercase font-bold uppercase">Agreement</h4>
-                        <div class="text-[9px] h-20 overflow-y-auto bg-white p-4 border border-gray-100 text-gray-400 leading-relaxed font-bold">
-                            입금 확인 후 배송이 시작됩니다. 단순 변심에 의한 환불은 왕복 배송비가 발생할 수 있습니다.
-                        </div>
-                        <div class="flex items-center gap-2 font-bold uppercase text-left"><input type="checkbox" id="chk-agree" class="w-3 h-3 border-black font-bold uppercase text-left"><label for="chk-agree" class="text-[9px] font-bold uppercase font-bold uppercase font-bold uppercase text-left font-bold uppercase">구매 정보 확인 및 동의</label></div>
+                <div class="bg-gray-50 p-10 h-fit text-left font-black">
+                    <h3 class="text-[11px] font-black uppercase mb-8 font-black">Summary</h3>
+                    <div class="flex justify-between items-end mb-10 font-black"><span class="text-xs font-black uppercase font-black">Final Total</span><span id="chk-final-total" class="text-3xl font-black text-red-600 font-black"></span></div>
+                    <div class="pt-8 border-t border-gray-200 space-y-4 font-black">
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase font-black text-left">Agreement</h4>
+                        <div class="text-[9px] h-20 overflow-y-auto bg-white p-4 border border-gray-100 text-gray-400 leading-relaxed font-bold">입금 확인 후 배송이 시작됩니다. 단순 변심에 의한 환불은 왕복 배송비가 발생할 수 있습니다.</div>
+                        <div class="flex items-center gap-2 font-black text-left"><input type="checkbox" id="chk-agree" class="w-3 h-3 border-black"><label for="chk-agree" class="text-[9px] font-black uppercase text-left">구매 정보 확인 및 동의</label></div>
                     </div>
-                    <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10 font-bold uppercase">Pay Now</button>
+                    <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10 font-black">Pay Now</button>
                 </div>
             </div>
         </section>
 
-        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center">
+        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center font-black">
             <div class="w-full max-w-xs space-y-10">
-                <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase font-bold uppercase">Sign In</h2>
+                <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase font-black">Sign In</h2>
                 <div class="space-y-2">
                     <input type="text" id="login-id" placeholder="ID" class="form-input text-center">
                     <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input text-center">
-                    <button onclick="handleLogin()" id="login-submit-btn" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4 font-bold uppercase">Login</button>
-                    <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline text-center font-bold uppercase">Register</button>
+                    <button onclick="handleLogin()" id="login-submit-btn" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4 font-black">Login</button>
+                    <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline text-center font-black">Register</button>
                 </div>
             </div>
         </section>
 
-        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left font-bold uppercase">
-            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10 font-bold uppercase">Register</h2>
-            <div class="space-y-4 font-bold uppercase">
-                <div class="grid grid-cols-2 gap-2 font-bold uppercase"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
-                <div class="grid grid-cols-2 gap-2 font-bold uppercase"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div>
-                <div class="flex gap-1 font-bold uppercase"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24 font-bold uppercase"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase font-bold uppercase shrink-0 font-bold uppercase">Find</button></div>
-                <input type="text" id="reg-address" readonly class="form-input font-bold uppercase"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input font-bold uppercase font-bold uppercase">
-                <div class="pt-8 space-y-8 font-bold uppercase">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 font-bold uppercase">Terms & Agreement</h3>
-                    <div class="space-y-3 font-bold uppercase"><div class="flex items-center justify-between font-bold uppercase font-bold uppercase font-bold uppercase"><label class="text-[9px] font-black uppercase font-bold uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check" class="w-3 h-3"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 font-bold uppercase">제1조... (전체 약관 유지)</div></div>
-                    <div class="space-y-3 font-bold uppercase"><div class="flex items-center justify-between font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest"><label class="text-[9px] font-black uppercase font-bold uppercase tracking-widest">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check" class="w-3 h-3"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 font-bold uppercase">1. 수집항목: 아이디, 비밀번호, 이름, 연락처, 주소...</div></div>
-                </div>
-                <button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10 font-bold uppercase">Create Account</button>
-            </div>
-        </section>
+        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left font-black"><h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10 font-black">Register</h2><div class="space-y-4 text-left font-black"><div class="grid grid-cols-2 gap-2 text-left font-black"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div><div class="grid grid-cols-2 gap-2 text-left font-black"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div><div class="flex gap-1 text-left font-black"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24 text-left font-black"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0 font-black">Find</button></div><input type="text" id="reg-address" readonly class="form-input font-black text-left"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input font-black text-left font-black"><button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10 font-black">Create Account</button></div></section>
 
-        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto text-left font-bold uppercase">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
-                <div class="space-y-10 text-left font-bold uppercase text-left font-bold uppercase">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left font-bold uppercase tracking-widest uppercase tracking-widest font-bold uppercase">Profile Settings</h3>
-                    <div class="space-y-4 font-bold uppercase text-left font-bold uppercase">
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-bold uppercase tracking-widest font-bold uppercase">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-black"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-bold uppercase tracking-widest font-bold uppercase">Name</label><input type="text" id="my-name" class="form-input"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-bold uppercase tracking-widest font-bold uppercase">Phone</label><input type="text" id="my-phone" class="form-input"></div>
-                        <div class="space-y-2 font-bold uppercase text-left font-bold uppercase">
-                            <label class="text-[9px] font-black text-gray-400 uppercase font-bold uppercase tracking-widest font-bold uppercase tracking-widest font-bold uppercase">Address</label>
-                            <div class="flex gap-1 font-bold uppercase font-bold uppercase font-bold uppercase font-bold uppercase"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24 font-bold uppercase text-left font-bold uppercase"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase font-bold uppercase font-bold uppercase font-bold uppercase shrink-0 font-bold uppercase">Find</button></div>
-                            <input type="text" id="my-address" readonly class="form-input font-bold uppercase text-left font-bold uppercase"><input type="text" id="my-address-detail" placeholder="Detail" class="form-input font-bold uppercase text-left font-bold uppercase">
+        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto text-left font-black">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-20 text-left font-black">
+                <div class="space-y-10 text-left font-black">
+                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left font-black">Profile Settings</h3>
+                    <div class="space-y-4 text-left font-black">
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-black">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-black"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-black">Name</label><input type="text" id="my-name" class="form-input"></div>
+                        <div><label class="text-[9px] font-black text-gray-400 uppercase font-black">Phone</label><input type="text" id="my-phone" class="form-input"></div>
+                        <div class="space-y-2 text-left">
+                            <label class="text-[9px] font-black text-gray-400 uppercase font-black text-left">Address</label>
+                            <div class="flex gap-1 text-left"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24 text-left font-black"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0 font-black">Find</button></div>
+                            <input type="text" id="my-address" readonly class="form-input text-left font-black"><input type="text" id="my-address-detail" placeholder="Detail" class="form-input text-left font-black">
                         </div>
-                        <div class="pt-4 border-t border-gray-100 font-bold uppercase text-left font-bold uppercase">
-                            <label class="text-[9px] font-black text-gray-400 uppercase font-bold uppercase tracking-widest font-bold uppercase">Password Change</label>
-                            <input type="password" id="my-pw" placeholder="New Password" class="form-input font-bold uppercase">
-                        </div>
-                        <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6 font-bold uppercase tracking-widest uppercase tracking-widest font-bold uppercase">Save Changes</button>
+                        <div class="pt-4 border-t border-gray-100 text-left"><label class="text-[9px] font-black text-gray-400 uppercase font-black">Password Change</label><input type="password" id="my-pw" placeholder="New Password" class="form-input font-black text-left"></div>
+                        <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6 font-black">Save Changes</button>
                     </div>
                 </div>
-                <div class="lg:col-span-3 space-y-10 text-left font-bold uppercase text-left font-bold uppercase">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">Order History</h3>
-                    <div id="my-orders-list" class="divide-y divide-gray-100 text-left font-bold uppercase"></div>
-                </div>
+                <div class="lg:col-span-3 space-y-10 font-black text-left"><h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left font-black">Order History</h3><div id="my-orders-list" class="divide-y divide-gray-100 text-left font-black"></div></div>
             </div>
         </section>
     </main>
 
-    <footer class="border-t border-gray-100 py-20 bg-white text-center font-bold uppercase text-left font-bold uppercase">
-        <h2 class="text-sm font-black uppercase mb-10 italic font-bold uppercase tracking-[0.4em] font-bold uppercase tracking-[0.4em] mb-10 font-bold uppercase tracking-[0.4em] font-bold uppercase tracking-[0.4em]">GongGamMall</h2>
-        <div class="text-[10px] font-bold text-gray-400 space-y-1 font-bold uppercase text-center font-bold uppercase">
+    <footer class="border-t border-gray-100 py-20 bg-white text-center font-black">
+        <h2 class="text-sm font-black uppercase mb-10 italic">GongGamMall</h2>
+        <div class="text-[10px] font-bold text-gray-400 space-y-1">
             <p>CEO: 김원석 | Business License: [과세사업자]</p>
             <p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p>
         </div>
-        <p class="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-10 font-bold uppercase tracking-widest uppercase tracking-widest uppercase tracking-widest uppercase tracking-widest uppercase tracking-widest uppercase tracking-widest font-bold uppercase tracking-widest mt-10 font-bold uppercase tracking-widest mt-10 font-bold uppercase tracking-widest uppercase tracking-widest mt-10 font-bold uppercase tracking-widest font-bold uppercase tracking-widest uppercase tracking-widest uppercase tracking-widest font-bold uppercase tracking-widest uppercase tracking-widest">© 2026 GongGamMall. All rights reserved.</p>
+        <p class="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-10">© 2026 GongGamMall. All rights reserved.</p>
     </footer>
 
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbymsAT-gByE2QYAsPABgNnn5bGIFU741Xqv_I5VNQEbRbBgwgs-UtfMNWjZW6Jwz-ES/exec';
         let allProducts = [], cart = JSON.parse(localStorage.getItem('ggm_cart')) || [];
         let currentUser = JSON.parse(localStorage.getItem('ggm_user'));
-        let currentProductObj = null, currentQty = 1, orderType = 'single';
 
-        async function init() { 
-            updateAuthUI(); await loadProducts(); updateCartBadge(); 
-            window.onpopstate = (e) => showView(e.state ? e.state.view : 'home', false);
-            const initialView = window.location.hash.replace('#', '') || 'home';
-            showView(initialView, false);
-        }
+        async function init() { updateAuthUI(); await loadProducts(); updateCartBadge(); window.onpopstate = (e) => showView(e.state ? e.state.view : 'home', false); const initialView = window.location.hash.replace('#', '') || 'home'; showView(initialView, false); }
 
-        function execDaumPostcode(type) {
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    let addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
-                    let prefix = (type === 'order') ? 'chk' : (type === 'reg') ? 'reg' : 'my';
-                    document.getElementById(prefix + '-postcode').value = data.zonecode;
-                    document.getElementById(prefix + '-address').value = addr;
-                    document.getElementById(prefix + '-address-detail').focus();
-                }
-            }).open();
-        }
+        function execDaumPostcode(type) { new daum.Postcode({ oncomplete: function(data) { let addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress; let prefix = (type === 'order') ? 'chk' : (type === 'reg') ? 'reg' : 'my'; document.getElementById(prefix + '-postcode').value = data.zonecode; document.getElementById(prefix + '-address').value = addr; document.getElementById(prefix + '-address-detail').focus(); }}).open(); }
 
-        async function loadProducts() {
-            try {
-                const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
-                const rawData = await res.json(); 
-                allProducts = rawData.filter(p => p.상품명 && String(p.상품명).trim() !== "");
-                renderNav(); renderMainList(); 
-            } catch (e) { console.error("Load Error:", e); }
-        }
+        async function loadProducts() { try { const res = await fetch(`${WEB_APP_URL}?action=getProducts`); const rawData = await res.json(); allProducts = rawData.filter(p => p.상품명 && String(p.상품명).trim() !== ""); renderNav(); renderMainList(); } catch (e) { console.error("Load Error:", e); }}
 
-        function renderNav() {
-            const navData = {}; allProducts.forEach(p => { if(p.카테고리) { if(!navData[p.카테고리]) navData[p.카테고리] = new Set(); if(p.서브카테고리) navData[p.카테고리].add(p.서브카테고리); }});
-            document.getElementById('main-nav').innerHTML = Object.keys(navData).map(cat => `<button class="nav-tab uppercase shrink-0 font-bold font-bold uppercase font-bold uppercase" onclick="filterByCat('${cat}')">${cat}</button>`).join('');
-        }
+        function renderNav() { const navData = {}; allProducts.forEach(p => { if(p.카테고리) { if(!navData[p.카테고리]) navData[p.카테고리] = new Set(); if(p.서브카테고리) navData[p.카테고리].add(p.서브카테고리); }}); document.getElementById('main-nav').innerHTML = Object.keys(navData).map(cat => `<button class="nav-tab uppercase shrink-0 font-black" onclick="filterByCat('${cat}')">${cat}</button>`).join(''); }
 
-        function renderMainList() {
-            const displayProducts = [...allProducts].reverse(); 
-            document.getElementById('top5-container').innerHTML = displayProducts.map(p => createProductCard(p)).join('');
-        }
+        function renderMainList() { const displayProducts = [...allProducts].reverse(); document.getElementById('top5-container').innerHTML = displayProducts.map(p => createProductCard(p)).join(''); }
 
-        function createProductCard(p) {
-            return `<div class="product-grid-item cursor-pointer group text-left font-bold uppercase" onclick="showProductDetail('${p.상품명}')"><div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden"><img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div><div class="space-y-1"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest font-bold uppercase">${p.브랜드 || 'GGM'}</p><h3 class="text-[11px] font-bold text-gray-900 line-clamp-1 font-bold uppercase">${p.상품명}</h3><p class="text-[11px] font-black uppercase tracking-widest font-bold uppercase font-bold uppercase">${Number(p.가격).toLocaleString()} KRW</p></div></div>`;
-        }
+        function createProductCard(p) { return `<div class="product-grid-item cursor-pointer group text-left font-black" onclick="showProductDetail('${p.상품명}')"><div class="aspect-[3/4] bg-gray-50 mb-4 overflow-hidden"><img src="${p.이미지URL}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div><div class="space-y-1"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest font-black uppercase">${p.브랜드 || 'GGM'}</p><h3 class="text-[11px] font-bold text-gray-900 line-clamp-1 font-black uppercase">${p.상품명}</h3><p class="text-[11px] font-black uppercase tracking-widest font-black uppercase font-black uppercase">${Number(p.가격).toLocaleString()} KRW</p></div></div>`; }
 
-        function showProductDetail(name) {
-            currentProductObj = allProducts.find(p => p.상품명 === name);
-            if(!currentProductObj) return;
-            currentQty = 1; document.getElementById('order-qty').value = 1;
-            document.getElementById('detail-img').src = currentProductObj.이미지URL;
-            document.getElementById('detail-brand').innerText = currentProductObj.브랜드 || 'GGM';
-            document.getElementById('detail-name').innerText = currentProductObj.상품명;
-            document.getElementById('detail-price-val').innerText = Number(currentProductObj.가격).toLocaleString();
-            document.getElementById('detail-long-img').src = currentProductObj.상세이미지URL || '';
-            updateTotalPrice(); showView('detail');
-        }
+        function showProductDetail(name) { currentProductObj = allProducts.find(p => p.상품명 === name); if(!currentProductObj) return; currentQty = 1; document.getElementById('order-qty').value = 1; document.getElementById('detail-img').src = currentProductObj.이미지URL; document.getElementById('detail-brand').innerText = currentProductObj.브랜드 || 'GGM'; document.getElementById('detail-name').innerText = currentProductObj.상품명; document.getElementById('detail-price-val').innerText = Number(currentProductObj.가격).toLocaleString(); document.getElementById('detail-long-img').src = currentProductObj.상세이미지URL || ''; updateTotalPrice(); showView('detail'); }
 
-        function filterByCat(cat) { 
-            const filtered = allProducts.filter(p => p.카테고리 === cat); 
-            document.getElementById('category-title').innerText = cat;
-            document.getElementById('product-container').innerHTML = filtered.map(p => createProductCard(p)).join(''); 
-            showView('category'); 
-        }
+        function filterByCat(cat) { const filtered = allProducts.filter(p => p.카테고리 === cat); document.getElementById('category-title').innerText = cat; document.getElementById('product-container').innerHTML = filtered.map(p => createProductCard(p)).join(''); showView('category'); }
 
         function showView(view, pushState = true) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById(view + '-view');
             if(target) target.classList.remove('hidden');
             if(view === 'cart') renderCart();
-            if(view === 'mypage') loadMyPage();
+            if(view === 'mypage') { loadMyPage(); setTimeout(loadMyPage, 200); } // 0.2초 뒤 강제 재로드 (주소 연동 보장)
             window.scrollTo(0,0);
             if (pushState) window.history.pushState({ view: view }, '', '#' + view);
         }
 
         function showMain() { showView('home'); }
-        function goBackFromDetail() { window.history.back(); }
         function changeQty(val) { currentQty = Math.max(1, currentQty + val); document.getElementById('order-qty').value = currentQty; updateTotalPrice(); }
         function updateTotalPrice() { if(currentProductObj) document.getElementById('total-price-display').innerText = (currentProductObj.가격 * currentQty).toLocaleString() + ' KRW'; }
         function updateCartBadge() { document.getElementById('cart-count').innerText = cart.length; }
-        
-        function addToCart() { 
-            const item = { ...currentProductObj, qty: currentQty };
-            const idx = cart.findIndex(c => c.상품명 === item.상품명);
-            if(idx > -1) { cart[idx].qty += currentQty; } else { cart.push(item); }
-            localStorage.setItem('ggm_cart', JSON.stringify(cart));
-            updateCartBadge(); if(confirm('Added to Bag. Go to Cart?')) showView('cart'); 
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            if(cart.length === 0) { container.innerHTML = '<p class="text-center py-20 text-[10px] font-bold text-gray-300 uppercase text-left font-bold uppercase font-bold uppercase font-bold uppercase">Bag is empty</p>'; document.getElementById('cart-total').innerText = '0 KRW'; return; }
-            let total = 0;
-            container.innerHTML = cart.map((item, idx) => {
-                total += (item.가격 * item.qty);
-                return `<div class="flex gap-10 items-center border-b border-gray-50 pb-10 text-left font-bold uppercase"><img src="${item.이미지URL}" class="w-20 h-24 object-cover font-bold uppercase"><div class="flex-1 space-y-1 text-left font-bold uppercase"><p class="text-[9px] font-black text-gray-300 uppercase tracking-widest font-bold uppercase">${item.브랜드}</p><h4 class="text-[11px] font-bold font-bold uppercase font-bold uppercase">${item.상품명}</h4><p class="text-[11px] font-black uppercase text-red-600 font-bold uppercase font-bold uppercase tracking-widest uppercase">${(item.가격*item.qty).toLocaleString()} KRW</p></div><div class="flex items-center gap-6 font-bold uppercase font-bold uppercase"><div class="flex border border-gray-100 font-bold uppercase font-bold uppercase font-bold uppercase font-bold uppercase"><button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold font-bold font-bold uppercase">-</button><span class="w-8 text-center text-[10px] leading-8 font-bold font-bold font-bold font-bold uppercase">${item.qty}</span><button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold font-bold font-bold uppercase font-bold uppercase">+</button></div><button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline font-bold uppercase font-bold uppercase tracking-widest uppercase font-bold uppercase">Remove</button></div></div>`;
-            }).join('');
-            document.getElementById('cart-total').innerText = total.toLocaleString() + ' KRW';
-        }
-
+        function addToCart() { const item = { ...currentProductObj, qty: currentQty }; const idx = cart.findIndex(c => c.상품명 === item.상품명); if(idx > -1) { cart[idx].qty += currentQty; } else { cart.push(item); } localStorage.setItem('ggm_cart', JSON.stringify(cart)); updateCartBadge(); if(confirm('Added to Bag. Go to Cart?')) showView('cart'); }
+        function renderCart() { const container = document.getElementById('cart-items'); if(cart.length === 0) { container.innerHTML = '<p class="text-center py-20 text-[10px] font-bold text-gray-300 uppercase">Bag is empty</p>'; document.getElementById('cart-total').innerText = '0 KRW'; return; } let total = 0; container.innerHTML = cart.map((item, idx) => { total += (item.가격 * item.qty); return `<div class="flex gap-10 items-center border-b border-gray-50 pb-10 text-left font-black uppercase"><img src="${item.이미지URL}" class="w-20 h-24 object-cover font-black uppercase"><div class="flex-1 space-y-1 text-left font-black uppercase"><p class="text-[9px] font-black text-gray-300 uppercase font-black uppercase">${item.브랜드}</p><h4 class="text-[11px] font-bold font-black uppercase font-black uppercase font-black uppercase">${item.상품명}</h4><p class="text-[11px] font-black uppercase text-red-600 font-black uppercase tracking-widest font-black uppercase">${(item.가격*item.qty).toLocaleString()} KRW</p></div><div class="flex items-center gap-6 font-black uppercase"><div class="flex border border-gray-100 font-black"><button onclick="updateCartQty(${idx},-1)" class="w-8 h-8 font-bold font-black">-</button><span class="w-8 text-center text-[10px] leading-8 font-bold font-black">${item.qty}</span><button onclick="updateCartQty(${idx},1)" class="w-8 h-8 font-bold font-black">+</button></div><button onclick="removeFromCart(${idx})" class="text-[9px] font-black uppercase underline font-bold uppercase">Remove</button></div></div>`; }).join(''); document.getElementById('cart-total').innerText = total.toLocaleString() + ' KRW'; }
         function updateCartQty(idx, delta) { cart[idx].qty = Math.max(1, cart[idx].qty+delta); localStorage.setItem('ggm_cart', JSON.stringify(cart)); renderCart(); updateCartBadge(); }
         function removeFromCart(idx) { cart.splice(idx,1); localStorage.setItem('ggm_cart', JSON.stringify(cart)); renderCart(); updateCartBadge(); }
 
-        // [최종 수정] 로그인 성공 시 팝업 없이 즉시 마이페이지 이동 + 데이터 완벽 매핑
         async function handleLogin() { 
             const id = document.getElementById('login-id').value;
             const pw = document.getElementById('login-pw').value;
-            const btn = document.getElementById('login-submit-btn');
-            btn.disabled = true; btn.innerText = 'WAIT...';
-
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
-            
             if(data.result === 'success') { 
-                currentUser = { 
-                    id: id, 
-                    name: data.name, 
-                    phone: data.phone,
-                    postcode: data.postcode || "",
-                    address: data.address || "",
-                    addressDetail: data.addressDetail || ""
-                }; 
+                // [강제 주입] 서버 데이터를 로컬에 누락 없이 무조건 저장
+                currentUser = { id, name: data.name, phone: data.phone, postcode: data.postcode || "", address: data.address || "", addressDetail: data.addressDetail || "" }; 
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser)); 
-                
-                // 알림창(alert) 없이 즉시 마이페이지로 이동 및 새로고침
-                location.href = '#mypage';
-                location.reload(); 
-            } else { 
-                alert('Login Fail. Check ID/PW'); 
-                btn.disabled = false; btn.innerText = 'Login';
-            } 
+                location.href = '#mypage'; location.reload(); 
+            } else { alert('Login Fail'); } 
         }
 
-        async function handleSignup() {
-            const data = { id: document.getElementById('reg-id').value, pw: document.getElementById('reg-pw').value, name: document.getElementById('reg-name').value, phone: document.getElementById('reg-phone').value, postcode: document.getElementById('reg-postcode').value, address: document.getElementById('reg-address').value, addressDetail: document.getElementById('reg-address-detail').value };
-            if(!data.id || !data.pw || !data.name || !data.phone || !data.address) return alert('Check fields');
-            const res = await fetch(`${WEB_APP_URL}?action=signup&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') { alert('Done'); showView('login'); } else { alert('Fail'); }
-        }
+        async function handleSignup() { const data = { id: document.getElementById('reg-id').value, pw: document.getElementById('reg-pw').value, name: document.getElementById('reg-name').value, phone: document.getElementById('reg-phone').value, postcode: document.getElementById('reg-postcode').value, address: document.getElementById('reg-address').value, addressDetail: document.getElementById('reg-address-detail').value }; if(!data.id || !data.pw || !data.name || !data.phone || !data.address) return alert('Check fields'); const res = await fetch(`${WEB_APP_URL}?action=signup&data=${encodeURIComponent(JSON.stringify(data))}`); if(await res.text() === 'success') { alert('Done'); showView('login'); } else { alert('Fail'); }}
 
         function goToCheckout(type) {
             if(!currentUser) return showView('login');
             orderType = type; let total = 0; const container = document.getElementById('checkout-items');
-            if(type === 'single') {
-                total = Number(currentProductObj.가격) * currentQty;
-                container.innerHTML = `<div class="flex items-center gap-4 bg-white p-4 border border-gray-100 font-bold uppercase"><img src="${currentProductObj.이미지URL}" class="w-12 h-16 object-cover"><div class="text-[11px] font-bold uppercase">${currentProductObj.상품명} (${currentQty})</div></div>`;
-            } else {
-                container.innerHTML = cart.map(i => { total += Number(i.가격)*i.qty; return `<div class="flex items-center gap-4 bg-white p-4 border border-gray-100 mb-2 font-bold uppercase"><img src="${i.이미지URL}" class="w-12 h-16 object-cover"><div class="text-[11px] font-bold uppercase font-bold uppercase">${i.상품명} (${i.qty})</div></div>`; }).join('');
-            }
+            if(type === 'single') { total = Number(currentProductObj.가격) * currentQty; container.innerHTML = `<div class="flex items-center gap-4 bg-white p-4 border border-gray-100 font-black uppercase text-left"><img src="${currentProductObj.이미지URL}" class="w-12 h-16 object-cover"><div class="text-[11px] font-bold uppercase tracking-widest font-black uppercase">${currentProductObj.상품명} (${currentQty})</div></div>`; }
+            else { container.innerHTML = cart.map(i => { total += Number(i.가격)*i.qty; return `<div class="flex items-center gap-4 bg-white p-4 border border-gray-100 mb-2 font-black uppercase text-left font-black"><img src="${i.이미지URL}" class="w-12 h-16 object-cover"><div class="text-[11px] font-bold uppercase tracking-widest font-black uppercase font-black uppercase">${i.상품명} (${i.qty})</div></div>`; }).join(''); }
             document.getElementById('chk-final-total').innerText = total.toLocaleString() + ' KRW';
-            document.getElementById('chk-orderer-name').value = currentUser.name || '';
-            document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
-            document.getElementById('chk-postcode').value = currentUser.postcode || '';
-            document.getElementById('chk-address').value = currentUser.address || '';
-            document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
+            document.getElementById('chk-orderer-name').value = currentUser.name || ''; document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
+            document.getElementById('chk-postcode').value = currentUser.postcode || ''; document.getElementById('chk-address').value = currentUser.address || ''; document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
             showView('checkout');
         }
 
-        async function submitOrder() {
-            if(!document.getElementById('chk-agree').checked) return alert('Agree first');
-            const btn = document.getElementById('final-submit-btn');
-            btn.disabled = true; 
-            const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, ''));
-            const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty})` : cart.map(c => `${c.상품명} (${c.qty})`).join(', ');
-            const finalData = { "상품명": productStr, "주문자명": document.getElementById('chk-orderer-name').value, "주문자연락처": document.getElementById('chk-orderer-phone').value, "수령인명": document.getElementById('chk-orderer-name').value, "수령인연락처": document.getElementById('chk-orderer-phone').value, "우편번호": document.getElementById('chk-postcode').value, "기본주소": document.getElementById('chk-address').value, "상세주소": document.getElementById('chk-address-detail').value, "배송메시지": document.getElementById('chk-request').value, "총금액": document.getElementById('chk-final-total').innerText, "userId": currentUser.id };
-            await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
-            if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
-            
-            // 승조님의 계좌 정보
-            const successMsg = `[주문 접수 완료]\n\n금액: ${totalPrice.toLocaleString()}원\n계좌: 카카오뱅크 / 3333-33-786773 / 이미진(미짱네)\n\n입금 확인 후 배송을 시작합니다.`;
-            alert(successMsg);
-            location.href = '#home'; location.reload();
-        }
+        async function submitOrder() { if(!document.getElementById('chk-agree').checked) return alert('Agree first'); const btn = document.getElementById('final-submit-btn'); btn.disabled = true; const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, '')); const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty})` : cart.map(c => `${c.상품명} (${c.qty})`).join(', '); const finalData = { "상품명": productStr, "주문자명": document.getElementById('chk-orderer-name').value, "주문자연락처": document.getElementById('chk-orderer-phone').value, "수령인명": document.getElementById('chk-orderer-name').value, "수령인연락처": document.getElementById('chk-orderer-phone').value, "우편번호": document.getElementById('chk-postcode').value, "기본주소": document.getElementById('chk-address').value, "상세주소": document.getElementById('chk-address-detail').value, "배송메시지": document.getElementById('chk-request').value, "총금액": document.getElementById('chk-final-total').innerText, "userId": currentUser.id }; await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`); if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); } alert(`[주문 접수 완료]\n\n금액: ${totalPrice.toLocaleString()}원\n계좌: 카카오뱅크 / 3333-33-786773 / 이미진(미짱네)\n\n입금 확인 후 배송을 시작합니다.`); location.href = '#home'; location.reload(); }
 
         async function loadMyPage() {
             if(!currentUser) return;
-            // [정보 주입 로직 강화] 폼 요소에 직접 강제로 꽂아넣기
-            document.getElementById('my-id').value = currentUser.id || "";
-            document.getElementById('my-name').value = currentUser.name || "";
-            document.getElementById('my-phone').value = currentUser.phone || "";
-            document.getElementById('my-postcode').value = currentUser.postcode || "";
-            document.getElementById('my-address').value = currentUser.address || "";
-            document.getElementById('my-address-detail').value = currentUser.addressDetail || "";
-            
+            const user = JSON.parse(localStorage.getItem('ggm_user')); // 최신 저장소 값 다시 읽기
+            document.getElementById('my-id').value = user.id || "";
+            document.getElementById('my-name').value = user.name || "";
+            document.getElementById('my-phone').value = user.phone || "";
+            document.getElementById('my-postcode').value = user.postcode || "";
+            document.getElementById('my-address').value = user.address || "";
+            document.getElementById('my-address-detail').value = user.addressDetail || "";
             const container = document.getElementById('my-orders-list');
-            try {
-                const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
-                const orders = await res.json();
-                if(orders.length === 0) { container.innerHTML = '<p class="py-20 text-[10px] font-bold text-gray-300 uppercase tracking-widest text-left font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">No orders</p>'; }
-                else { 
-                    container.innerHTML = orders.map(o => `
-                        <div class="py-10 flex justify-between items-start text-left font-bold uppercase font-bold uppercase text-left font-bold uppercase">
-                            <div class="space-y-1 font-bold uppercase">
-                                <p class="text-[9px] font-black text-gray-300 uppercase tracking-widest font-bold uppercase">${new Date(o.주문시간).toLocaleDateString()}</p>
-                                <h4 class="text-[11px] font-black italic uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">${o.상품명}</h4>
-                                <p class="text-[11px] font-black uppercase text-red-600 font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">${o.총금액}</p>
-                            </div>
-                            <div class="flex flex-col items-end gap-2 font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">
-                                <span class="order-status text-gray-400 uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">${o.상태 || 'Pending'}</span>
-                                ${(o.상태 === '주문접수' || !o.상태) ? `<button onclick="handleCancelOrder('${o.주문시간}')" class="text-[9px] font-bold underline text-gray-300 uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase font-bold uppercase font-bold uppercase tracking-widest font-bold uppercase">Cancel</button>` : ''}
-                            </div>
-                        </div>`).join('');
-                }
-            } catch (e) { container.innerHTML = 'Error'; }
+            try { const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${user.id}`); const orders = await res.json(); if(orders.length === 0) { container.innerHTML = '<p class="py-20 text-[10px] font-bold text-gray-300 uppercase tracking-widest text-left font-black">No orders</p>'; } else { container.innerHTML = orders.map(o => ` <div class="py-10 flex justify-between items-start text-left font-black uppercase"> <div class="space-y-1 font-black"> <p class="text-[9px] font-black text-gray-300 uppercase tracking-widest font-black">${new Date(o.주문시간).toLocaleDateString()}</p> <h4 class="text-[11px] font-black italic uppercase font-black">${o.상품명}</h4> <p class="text-[11px] font-black uppercase text-red-600 font-black">${o.총금액}</p> </div> <div class="flex flex-col items-end gap-2 font-black uppercase"> <span class="order-status text-gray-400 uppercase tracking-widest font-black">${o.상태 || 'Pending'}</span> ${(o.상태 === '주문접수' || !o.상태) ? `<button onclick="handleCancelOrder('${o.주문시간}')" class="text-[9px] font-black underline text-gray-300 uppercase font-black">Cancel</button>` : ''} </div> </div>`).join(''); }} catch (e) { container.innerHTML = 'Error'; }
         }
 
-        async function handleCancelOrder(time) {
-            if(!confirm('주문을 취소하시겠습니까?')) return;
-            const res = await fetch(`${WEB_APP_URL}?action=cancelOrder&data=${encodeURIComponent(JSON.stringify({time, userId: currentUser.id}))}`);
-            if(await res.text() === 'success') { alert('취소 요청이 완료되었습니다.'); loadMyPage(); }
-        }
-
-        async function handleUpdateProfile() {
-            const data = { id: currentUser.id, name: document.getElementById('my-name').value, phone: document.getElementById('my-phone').value, postcode: document.getElementById('my-postcode').value, address: document.getElementById('my-address').value, addressDetail: document.getElementById('my-address-detail').value, pw: document.getElementById('my-pw').value };
-            const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') { 
-                alert('Saved Successfully'); 
-                currentUser.name = data.name; currentUser.phone = data.phone; currentUser.postcode = data.postcode; currentUser.address = data.address; currentUser.addressDetail = data.addressDetail;
-                localStorage.setItem('ggm_user', JSON.stringify(currentUser));
-                location.reload(); 
-            } else { alert('Update Fail'); }
-        }
-
+        async function handleCancelOrder(time) { if(!confirm('주문을 취소하시겠습니까?')) return; const res = await fetch(`${WEB_APP_URL}?action=cancelOrder&data=${encodeURIComponent(JSON.stringify({time, userId: currentUser.id}))}`); if(await res.text() === 'success') { alert('취소 요청이 완료되었습니다.'); loadMyPage(); }}
+        async function handleUpdateProfile() { const data = { id: currentUser.id, name: document.getElementById('my-name').value, phone: document.getElementById('my-phone').value, postcode: document.getElementById('my-postcode').value, address: document.getElementById('my-address').value, addressDetail: document.getElementById('my-address-detail').value, pw: document.getElementById('my-pw').value }; const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`); if(await res.text() === 'success') { alert('Saved Successfully'); currentUser.name = data.name; currentUser.phone = data.phone; currentUser.postcode = data.postcode; currentUser.address = data.address; currentUser.addressDetail = data.addressDetail; localStorage.setItem('ggm_user', JSON.stringify(currentUser)); location.reload(); } else { alert('Update Fail'); }}
         function handleLogout() { localStorage.removeItem('ggm_user'); location.reload(); }
         function updateAuthUI() { if(currentUser) { document.getElementById('user-info-btn').innerText = currentUser.id.toUpperCase(); document.getElementById('user-info-btn').classList.remove('hidden'); document.getElementById('login-btn').classList.add('hidden'); document.getElementById('logout-btn').classList.remove('hidden'); } }
         init();
