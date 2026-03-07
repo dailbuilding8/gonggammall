@@ -285,17 +285,54 @@
             showView('checkout');
         }
 
-        async function submitOrder() {
-            if(!document.getElementById('chk-agree').checked) return alert('결제 약관에 동의해 주세요.');
+async function submitOrder() {
+            if(!document.getElementById('chk-agree').checked) return alert('결제 약관 및 주문 동의가 필요합니다.');
             const btn = document.getElementById('final-submit-btn');
             btn.disabled = true; 
+            btn.innerText = 'PROCESSING...';
+            
             const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, ''));
             const productStr = orderType === 'single' ? `${currentProductObj.상품명} (${currentQty})` : cart.map(c => `${c.상품명} (${c.qty})`).join(', ');
-            const finalData = { "상품명": productStr, "주문자명": document.getElementById('chk-orderer-name').value, "주문자연락처": document.getElementById('chk-orderer-phone').value, "수령인명": document.getElementById('chk-orderer-name').value, "수령인연락처": document.getElementById('chk-orderer-phone').value, "우편번호": document.getElementById('chk-postcode').value, "기본주소": document.getElementById('chk-address').value, "상세주소": document.getElementById('chk-address-detail').value, "배송메시지": document.getElementById('chk-request').value, "총금액": document.getElementById('chk-final-total').innerText, "userId": currentUser.id };
-            await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
-            if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
-            const tossUrl = `https://toss.me/victshop/${totalPrice}`;
-            if(confirm('주문이 접수되었습니다! 송금 화면으로 이동하시겠습니까?')) { window.location.href = tossUrl; } else { location.reload(); }
+            
+            const finalData = { 
+                "상품명": productStr, 
+                "주문자명": document.getElementById('chk-orderer-name').value, 
+                "주문자연락처": document.getElementById('chk-orderer-phone').value,
+                "수령인명": document.getElementById('chk-orderer-name').value, 
+                "수령인연락처": document.getElementById('chk-orderer-phone').value,
+                "우편번호": document.getElementById('chk-postcode').value,
+                "기본주소": document.getElementById('chk-address').value,
+                "상세주소": document.getElementById('chk-address-detail').value,
+                "배송메시지": document.getElementById('chk-request').value,
+                "총금액": document.getElementById('chk-final-total').innerText,
+                "userId": currentUser.id 
+            };
+
+            try {
+                await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
+                if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
+                
+                // [수정 포인트] 토스 이동 삭제 및 안내 문구 팝업
+                const orderSuccessMessage = `
+🛒 주문이 성공적으로 접수되었습니다!
+
+[결제 안내]
+총 결제 금액: ${totalPrice.toLocaleString()}원
+계좌 정보: [여기에 승조님 계좌번호를 적어주세요]
+
+위 계좌로 입금해 주시면 확인 후 즉시 배송을 시작합니다.
+이용해 주셔서 감사합니다!
+                `;
+                
+                alert(orderSuccessMessage);
+                location.href = '#home'; // 주문 완료 후 홈으로 이동
+                location.reload();
+
+            } catch (e) {
+                alert('주문 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                btn.disabled = false;
+                btn.innerText = 'Confirm & Pay';
+            }
         }
 
         async function loadMyPage() {
