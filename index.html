@@ -25,7 +25,7 @@
 </head>
 <body>
     <header class="sticky top-0 z-[200] header-minimal">
-        <div class="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between text-left">
+        <div class="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
             <h1 class="text-xl font-black tracking-widest cursor-pointer uppercase" onclick="showMain()">GongGamMall</h1>
             <div class="flex items-center gap-8 text-[11px] font-black uppercase tracking-tighter">
                 <button id="user-info-btn" class="hidden border-b border-black" onclick="showView('mypage')"></button>
@@ -40,78 +40,77 @@
         </nav>
     </header>
 
-    <main class="min-h-screen text-left">
-        <section id="home-view" class="view-section">
-            <div class="max-w-screen-2xl mx-auto px-6 py-12">
-                <div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div>
-            </div>
-        </section>
-
+    <main class="min-h-screen">
+        <section id="home-view" class="view-section"><div class="max-w-screen-2xl mx-auto px-6 py-12"><div id="top5-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></div></section>
         <section id="category-view" class="view-section hidden py-12 px-6 max-w-screen-2xl mx-auto"><h2 id="category-title" class="text-xs font-black mb-10 tracking-widest uppercase border-b border-black pb-4">CATEGORY</h2><div id="product-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12"></div></section>
-        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto"><div class="grid grid-cols-1 md:grid-cols-2 gap-20"><div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div><div class="flex flex-col justify-start pt-10"><p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest"></p><h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter text-left"></h2><div class="mb-10 pb-10 border-b border-gray-100 text-left"><span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1">KRW</span></div><div class="space-y-8"><div class="flex items-center justify-between"><span class="text-[11px] font-black uppercase tracking-widest">Quantity</span><div class="flex items-center border border-black"><button onclick="changeQty(-1)" class="w-10 h-10 font-bold">-</button><input type="text" id="order-qty" value="1" readonly class="w-10 text-center font-bold text-sm"><button onclick="changeQty(1)" class="w-10 h-10 font-bold">+</button></div></div><div class="flex items-center justify-between pt-4 border-t border-black"><span class="text-[11px] font-black uppercase">Total</span><span id="total-price-display" class="text-xl font-black"></span></div><div class="grid grid-cols-2 gap-2 pt-6 text-left"><button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase hover:bg-black hover:text-white transition">Add to Cart</button><button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Buy Now</button></div></div></div></div><div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto text-left"><img id="detail-long-img" src="" class="w-full h-auto"></div></section>
-        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto text-left"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left">Shopping Bag</h2><div id="cart-items" class="space-y-10 mb-12"></div><div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div><div class="grid grid-cols-2 gap-2"><button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase">Continue</button><button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Order</button></div></section>
-        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-lg mx-auto text-left"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Checkout</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-16"><div class="space-y-10"><div class="space-y-4 text-left"><h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Shipping Information</h3><input type="text" id="chk-orderer-name" placeholder="Name" class="form-input"><input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input"><div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div><input type="text" id="chk-address" readonly class="form-input"><input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input"><input type="text" id="chk-request" placeholder="Message" class="form-input"></div></div><div class="bg-gray-50 p-10 h-fit text-left"><h3 class="text-[11px] font-black uppercase mb-8">Summary</h3><div id="checkout-items" class="space-y-2 mb-8 border-b border-gray-200 pb-8 text-xs font-medium"></div><div class="flex justify-between items-end mb-10"><span class="text-xs font-black uppercase text-red-600">Final Total</span><span id="chk-final-total" class="text-2xl font-black text-red-600"></span></div><button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase">Pay Now</button><div class="mt-4 flex items-center gap-2"><input type="checkbox" id="chk-agree"><label for="chk-agree" class="text-[9px] font-bold text-gray-400 uppercase text-left">I agree to the terms.</label></div></div></div></section>
+        <section id="detail-view" class="view-section hidden py-12 px-6 max-w-screen-xl mx-auto"><div class="grid grid-cols-1 md:grid-cols-2 gap-20"><div class="bg-white"><img id="detail-img" src="" class="w-full h-auto"></div><div class="flex flex-col justify-start pt-10"><p id="detail-brand" class="text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest"></p><h2 id="detail-name" class="text-2xl font-black mb-10 tracking-tighter"></h2><div class="mb-10 pb-10 border-b border-gray-100"><span id="detail-price-val" class="text-xl font-black"></span><span class="text-sm font-bold ml-1">KRW</span></div><div class="space-y-8"><div class="flex items-center justify-between"><span class="text-[11px] font-black uppercase tracking-widest">Quantity</span><div class="flex items-center border border-black"><button onclick="changeQty(-1)" class="w-10 h-10 font-bold">-</button><input type="text" id="order-qty" value="1" readonly class="w-10 text-center font-bold text-sm"><button onclick="changeQty(1)" class="w-10 h-10 font-bold">+</button></div></div><div class="flex items-center justify-between pt-4 border-t border-black"><span class="text-[11px] font-black uppercase">Total</span><span id="total-price-display" class="text-xl font-black"></span></div><div class="grid grid-cols-2 gap-2 pt-6"><button onclick="addToCart()" class="border border-black py-4 text-[11px] font-black uppercase hover:bg-black hover:text-white transition">Add to Cart</button><button onclick="goToCheckout('single')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Buy Now</button></div></div></div></div><div id="detail-long-container" class="mt-20 border-t border-gray-100 pt-20 max-w-3xl mx-auto"><img id="detail-long-img" src="" class="w-full h-auto"></div></section>
+        <section id="cart-view" class="view-section hidden py-20 px-6 max-w-screen-md mx-auto"><h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4">Shopping Bag</h2><div id="cart-items" class="space-y-10 mb-12"></div><div class="border-t-4 border-black pt-8 flex justify-between items-center mb-10"><span class="text-xs font-black uppercase">Total Amount</span><span id="cart-total" class="text-2xl font-black">0 KRW</span></div><div class="grid grid-cols-2 gap-2"><button onclick="showMain()" class="border border-black py-4 text-[11px] font-black uppercase">Continue</button><button onclick="goToCheckout('cart')" class="bg-black text-white py-4 text-[11px] font-black uppercase">Order</button></div></section>
 
-        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center text-left">
-            <div class="w-full max-w-xs space-y-10">
-                <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase">Sign In</h2>
-                <div class="space-y-2">
-                    <input type="text" id="login-id" placeholder="ID" class="form-input text-center">
-                    <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input text-center">
-                    <button onclick="handleLogin()" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4">Login</button>
-                    <button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline text-center">Register</button>
-                </div>
-            </div>
-        </section>
+        <section id="checkout-view" class="view-section hidden py-20 px-6 max-w-screen-xl mx-auto text-left">
+            <h2 class="text-xs font-black tracking-widest uppercase mb-12 border-b border-black pb-4 text-left">Checkout</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                <div class="space-y-16">
+                    <div class="space-y-6">
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Shipping Information</h3>
+                        <input type="text" id="chk-orderer-name" placeholder="Name" class="form-input">
+                        <input type="text" id="chk-orderer-phone" placeholder="Phone" class="form-input">
+                        <div class="flex gap-1"><input type="text" id="chk-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('order')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
+                        <input type="text" id="chk-address" readonly class="form-input">
+                        <input type="text" id="chk-address-detail" placeholder="Detail Address" class="form-input">
+                        <input type="text" id="chk-request" placeholder="Message" class="form-input">
+                    </div>
 
-        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left">
-            <h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10 text-left">Register</h2>
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div>
-                <div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div>
-                <div class="flex gap-1 text-left"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
-                <input type="text" id="reg-address" readonly class="form-input text-left"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input text-left">
-                <div class="pt-8 space-y-8 text-left">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400">Terms & Agreement</h3>
-                    <div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br><strong>제2조 (용어의 정의)</strong><br>1. "몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말합니다...</div></div>
-                    <div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase tracking-widest">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 주소.<br><strong>2. 수집목적</strong>: 서비스 제공 및 회원관리.<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지.</div></div>
-                </div>
-                <button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10">Create Account</button>
-            </div>
-        </section>
-
-        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto text-left">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
-                <div class="space-y-10 text-left">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Profile Settings</h3>
-                    <div class="space-y-4 text-left">
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Name</label><input type="text" id="my-name" class="form-input"></div>
-                        <div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Phone</label><input type="text" id="my-phone" class="form-input"></div>
-                        <div class="space-y-2 text-left">
-                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Address</label>
-                            <div class="flex gap-1 text-left"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div>
-                            <input type="text" id="my-address" readonly class="form-input"><input type="text" id="my-address-detail" placeholder="Detail Address" class="form-input">
-                        </div>
-                        <div class="pt-4 border-t border-gray-100 text-left">
-                            <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Password Change</label>
-                            <input type="password" id="my-pw" placeholder="New Password (or Leave Blank)" class="form-input">
-                        </div>
-                        <button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6">Save Changes</button>
+                    <div class="space-y-6">
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-gray-400">Order Items</h3>
+                        <div id="checkout-items" class="space-y-4">
+                            </div>
                     </div>
                 </div>
-                <div class="lg:col-span-3 space-y-10 text-left">
-                    <h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Order History</h3>
-                    <div id="my-orders-list" class="divide-y divide-gray-100"></div>
+
+                <div class="space-y-10">
+                    <div class="bg-gray-50 p-10 space-y-10">
+                        <h3 class="text-[11px] font-black uppercase">Payment Summary</h3>
+                        <div class="flex justify-between items-end border-t border-black pt-8">
+                            <span class="text-xs font-black uppercase">Final Total</span>
+                            <span id="chk-final-total" class="text-3xl font-black text-red-600"></span>
+                        </div>
+
+                        <div class="pt-10 border-t border-gray-200">
+                            <h3 class="text-[10px] font-black uppercase text-gray-400 mb-6">Payment Terms</h3>
+                            <div class="space-y-4">
+                                <div class="text-[9px] h-24 overflow-y-auto bg-white p-4 border border-gray-100 text-gray-400 leading-relaxed font-medium">
+                                    <strong>제1조 (결제 안내)</strong><br>
+                                    1. GongGamMall은 무통장 입금(토스 송금 등) 방식을 기본으로 사용합니다.<br>
+                                    2. 주문 후 24시간 이내에 입금이 확인되지 않을 경우 주문은 자동 취소됩니다.<br><br>
+                                    <strong>제2조 (청약철회 및 교환/환불)</strong><br>
+                                    1. 상품 수령 후 7일 이내에 교환/반품 신청이 가능합니다.<br>
+                                    2. 단순 변심에 의한 반품의 경우 왕복 배송비는 고객님께서 부담하셔야 합니다.<br>
+                                    3. 상품의 가치가 훼손된 경우(택 제거, 사용 흔적 등) 환불이 제한될 수 있습니다.<br><br>
+                                    <strong>제3조 (배송 정책)</strong><br>
+                                    입금 확인 후 영업일 기준 1~3일 이내에 출고되며, 산간벽지나 도서지방은 별도의 추가금액을 지불하셔야 하는 경우가 있습니다.
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="chk-agree" class="w-3 h-3 border-black">
+                                    <label for="chk-agree" class="text-[9px] font-black text-gray-900 uppercase">결제 약관 및 주문 정보를 확인하였으며 구매에 동의합니다.</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="submitOrder()" id="final-submit-btn" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase shadow-2xl">Confirm & Pay</button>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <section id="login-view" class="view-section hidden min-h-[60vh] flex items-center justify-center text-left"><div class="w-full max-w-xs space-y-10"><h2 class="text-xs font-black tracking-[0.3em] text-center uppercase">Sign In</h2><div class="space-y-2"><input type="text" id="login-id" placeholder="ID" class="form-input text-center"><input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PW" class="form-input text-center"><button onclick="handleLogin()" class="bg-black text-white w-full py-4 text-[11px] font-black uppercase mt-4">Login</button><button onclick="showView('signup')" class="w-full text-[9px] text-gray-400 font-bold uppercase mt-4 underline text-center">Register</button></div></div></section>
+        <section id="signup-view" class="view-section hidden py-20 px-6 max-w-md mx-auto text-left"><h2 class="text-xs font-black tracking-[0.3em] text-center uppercase mb-10 text-left">Register</h2><div class="space-y-4"><div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-id" placeholder="ID *" class="form-input"><input type="password" id="reg-pw" placeholder="PW *" class="form-input"></div><div class="grid grid-cols-2 gap-2 text-left"><input type="text" id="reg-name" placeholder="Name *" class="form-input"><input type="text" id="reg-phone" placeholder="Phone *" class="form-input"></div><div class="flex gap-1 text-left"><input type="text" id="reg-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('reg')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div><input type="text" id="reg-address" readonly class="form-input text-left"><input type="text" id="reg-address-detail" placeholder="Detail Address" class="form-input text-left"><div class="pt-8 space-y-8 text-left"><h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400">Terms & Agreement</h3><div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase">이용약관 동의 (필수)</label><input type="checkbox" id="agree-terms-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>제1조 (목적)</strong><br>본 약관은 GongGamMall이 운영하는 사이트에서 제공하는 서비스를 이용함에 있어 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다...</div></div><div class="space-y-3"><div class="flex items-center justify-between"><label class="text-[9px] font-black uppercase tracking-widest">개인정보 수집 동의 (필수)</label><input type="checkbox" id="agree-privacy-check"></div><div class="text-[9px] h-32 overflow-y-auto bg-gray-50 p-3 border border-gray-100 text-gray-500 leading-relaxed font-medium"><strong>1. 수집항목</strong>: 아이디, 비밀번호, 이름, 연락처, 주소.<br><strong>2. 수집목적</strong>: 서비스 제공 및 회원관리.<br><strong>3. 보유기간</strong>: 회원 탈퇴 시까지.</div></div></div><button onclick="handleSignup()" class="bg-black text-white w-full py-5 text-[11px] font-black uppercase mt-10">Create Account</button></div></section>
+        <section id="mypage-view" class="view-section hidden py-20 px-6 max-w-screen-2xl mx-auto text-left"><div class="grid grid-cols-1 lg:grid-cols-4 gap-20"><div class="space-y-10 text-left"><h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Profile Settings</h3><div class="space-y-4 text-left"><div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">ID</label><input type="text" id="my-id" readonly class="form-input !bg-transparent border-none !p-0 font-bold"></div><div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Name</label><input type="text" id="my-name" class="form-input"></div><div><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Phone</label><input type="text" id="my-phone" class="form-input"></div><div class="space-y-2 text-left"><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Address</label><div class="flex gap-1 text-left"><input type="text" id="my-postcode" placeholder="Zip" readonly class="form-input !w-24"><button onclick="execDaumPostcode('my')" class="bg-gray-100 px-4 text-[10px] font-bold uppercase shrink-0">Find</button></div><input type="text" id="my-address" readonly class="form-input"><input type="text" id="my-address-detail" placeholder="Detail Address" class="form-input"></div><div class="pt-4 border-t border-gray-100 text-left"><label class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Password Change</label><input type="password" id="my-pw" placeholder="New Password" class="form-input"></div><button onclick="handleUpdateProfile()" class="bg-black text-white w-full py-3 text-[10px] font-black uppercase mt-6">Save Changes</button></div></div><div class="lg:col-span-3 space-y-10 text-left"><h3 class="text-xs font-black uppercase border-b border-black pb-4 text-left">Order History</h3><div id="my-orders-list" class="divide-y divide-gray-100"></div></div></div></section>
     </main>
 
-    <footer class="border-t border-gray-100 py-20 bg-white text-left">
+    <footer class="border-t border-gray-100 py-20 bg-white">
         <div class="max-w-screen-2xl mx-auto px-6 text-center text-[10px] font-bold text-gray-400">
             <h2 class="text-sm font-black uppercase tracking-[0.4em] mb-10 text-black italic">GongGamMall</h2>
-            <div class="space-y-1 mb-10 text-left md:text-center">
+            <div class="space-y-1 mb-10 text-center">
                 <p>CEO: 김원석 | Business License: [과세사업자]</p><p>Location: -</p><p>Customer Center: 010-0000-0000 | gonggammall@gmail.com</p>
             </div>
             <p class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">© 2026 GongGamMall. All rights reserved.</p>
@@ -125,9 +124,7 @@
         let currentProductObj = null, currentQty = 1, orderType = 'single';
 
         async function init() { 
-            updateAuthUI(); 
-            await loadProducts(); 
-            updateCartBadge(); 
+            updateAuthUI(); await loadProducts(); updateCartBadge(); 
             window.onpopstate = (e) => showView(e.state ? e.state.view : 'home', false);
             const initialView = window.location.hash.replace('#', '') || 'home';
             showView(initialView, false);
@@ -150,8 +147,7 @@
                 const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
                 const rawData = await res.json(); 
                 allProducts = rawData.filter(p => p.상품명 && String(p.상품명).trim() !== "");
-                renderNav(); 
-                renderMainList(); 
+                renderNav(); renderMainList(); 
             } catch (e) { console.error("Data Error:", e); }
         }
 
@@ -232,15 +228,7 @@
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
             if(data.result === 'success') { 
-                // [강제 바인딩] 서버 응답 필드와 로컬 저장소 필드를 1:1 매칭
-                currentUser = { 
-                    id: id, 
-                    name: data.name, 
-                    phone: data.phone,
-                    postcode: data.postcode || "",
-                    address: data.address || "",
-                    addressDetail: data.addressDetail || ""
-                }; 
+                currentUser = { id, name: data.name, phone: data.phone, postcode: data.postcode || "", address: data.address || "", addressDetail: data.addressDetail || "" }; 
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser)); 
                 location.reload(); 
             } else { alert('Login Fail'); } 
@@ -254,20 +242,43 @@
             if(await res.text() === 'success') { alert('Done'); showView('login'); } else { alert('Fail'); }
         }
 
+        // [수정됨] 체크아웃 페이지 로드 시 제품 썸네일과 정보를 렌더링하는 로직 추가
         function goToCheckout(type) {
             if(!currentUser) return showView('login');
             orderType = type; let total = 0; const container = document.getElementById('checkout-items');
+            
             if(type === 'single') {
                 total = Number(currentProductObj.가격) * currentQty;
-                container.innerHTML = `<div class="flex justify-between uppercase tracking-tighter font-bold"><span>${currentProductObj.상품명} (${currentQty})</span><span>${total.toLocaleString()} KRW</span></div>`;
+                container.innerHTML = `
+                    <div class="flex items-center gap-6 bg-gray-50 p-4 border border-gray-100">
+                        <img src="${currentProductObj.이미지URL}" class="w-16 h-20 object-cover">
+                        <div class="flex-1 space-y-1">
+                            <p class="text-[9px] font-black text-gray-300 uppercase">${currentProductObj.브랜드 || 'GGM'}</p>
+                            <h4 class="text-[11px] font-bold uppercase">${currentProductObj.상품명}</h4>
+                            <p class="text-[11px] font-black uppercase tracking-tighter">${currentQty} Qty / ${(total).toLocaleString()} KRW</p>
+                        </div>
+                    </div>`;
             } else {
-                container.innerHTML = cart.map(i => { total += Number(i.가격)*i.qty; return `<div class="flex justify-between uppercase tracking-tighter font-bold mb-2"><span>${i.상품명} (${i.qty})</span><span>${(Number(i.가격)*i.qty).toLocaleString()} KRW</span></div>`; }).join('');
+                if(cart.length === 0) return;
+                container.innerHTML = cart.map(item => {
+                    let subTotal = Number(item.가격) * item.qty;
+                    total += subTotal;
+                    return `
+                        <div class="flex items-center gap-6 bg-gray-50 p-4 border border-gray-100">
+                            <img src="${item.이미지URL}" class="w-16 h-20 object-cover text-left">
+                            <div class="flex-1 space-y-1">
+                                <p class="text-[9px] font-black text-gray-300 uppercase">${item.브랜드}</p>
+                                <h4 class="text-[11px] font-bold uppercase">${item.상품명}</h4>
+                                <p class="text-[11px] font-black uppercase tracking-tighter">${item.qty} Qty / ${(subTotal).toLocaleString()} KRW</p>
+                            </div>
+                        </div>`;
+                }).join('');
             }
+
             const totalStr = total.toLocaleString() + ' KRW';
             document.getElementById('chk-final-total').innerText = totalStr;
             document.getElementById('chk-orderer-name').value = currentUser.name || '';
             document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
-            // 주소 자동 로드
             document.getElementById('chk-postcode').value = currentUser.postcode || '';
             document.getElementById('chk-address').value = currentUser.address || '';
             document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
@@ -275,7 +286,7 @@
         }
 
         async function submitOrder() {
-            if(!document.getElementById('chk-agree').checked) return alert('Agree first');
+            if(!document.getElementById('chk-agree').checked) return alert('결제 약관에 동의해 주세요.');
             const btn = document.getElementById('final-submit-btn');
             btn.disabled = true; 
             const totalPrice = Number(document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, ''));
@@ -284,19 +295,17 @@
             await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
             if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
             const tossUrl = `https://toss.me/victshop/${totalPrice}`;
-            if(confirm('Order Complete. Transfer?')) { window.location.href = tossUrl; } else { location.reload(); }
+            if(confirm('주문이 접수되었습니다! 송금 화면으로 이동하시겠습니까?')) { window.location.href = tossUrl; } else { location.reload(); }
         }
 
         async function loadMyPage() {
             if(!currentUser) return;
-            // [중요] 마이페이지 열 때 로컬 저장소 값을 강제로 입력창에 주입
-            document.getElementById('my-id').value = currentUser.id || "";
+            document.getElementById('my-id').value = currentUser.id;
             document.getElementById('my-name').value = currentUser.name || "";
             document.getElementById('my-phone').value = currentUser.phone || "";
             document.getElementById('my-postcode').value = currentUser.postcode || "";
             document.getElementById('my-address').value = currentUser.address || "";
             document.getElementById('my-address-detail').value = currentUser.addressDetail || "";
-            
             const container = document.getElementById('my-orders-list');
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
@@ -307,23 +316,11 @@
         }
 
         async function handleUpdateProfile() {
-            const data = { 
-                id: currentUser.id, 
-                name: document.getElementById('my-name').value, 
-                phone: document.getElementById('my-phone').value,
-                postcode: document.getElementById('my-postcode').value,
-                address: document.getElementById('my-address').value,
-                addressDetail: document.getElementById('my-address-detail').value,
-                pw: document.getElementById('my-pw').value
-            };
+            const data = { id: currentUser.id, name: document.getElementById('my-name').value, phone: document.getElementById('my-phone').value, postcode: document.getElementById('my-postcode').value, address: document.getElementById('my-address').value, addressDetail: document.getElementById('my-address-detail').value, pw: document.getElementById('my-pw').value };
             const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
             if(await res.text() === 'success') { 
                 alert('Saved Successfully'); 
-                currentUser.name = data.name;
-                currentUser.phone = data.phone;
-                currentUser.postcode = data.postcode;
-                currentUser.address = data.address;
-                currentUser.addressDetail = data.addressDetail;
+                currentUser.name = data.name; currentUser.phone = data.phone; currentUser.postcode = data.postcode; currentUser.address = data.address; currentUser.addressDetail = data.addressDetail;
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser));
                 location.reload(); 
             } else { alert('Update Fail'); }
