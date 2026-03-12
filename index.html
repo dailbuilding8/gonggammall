@@ -39,7 +39,6 @@
         .delivery-info { font-size: 11px; background: #f8fafc; padding: 12px; border-radius: 4px; border: 1px dashed #cbd5e1; margin-top: 10px; text-align: left; }
         .tracking-link { color: #2563eb; text-decoration: underline; cursor: pointer; font-weight: 800; }
 
-        /* 카카오 플로팅 버튼 애니메이션 */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -148,8 +147,22 @@
                     <div><label class="form-label !w-full">아이디</label><input type="text" id="my-id" class="form-input bg-gray-50" readonly></div>
                     <div><label class="form-label !w-full">이름</label><input type="text" id="my-name" class="form-input"></div>
                     <div><label class="form-label !w-full">연락처</label><input type="text" id="my-phone" class="form-input"></div>
-                    <div><label class="form-label !w-full">비밀번호 변경</label><input type="password" id="my-pw" placeholder="비워두면 변경안함" class="form-input"></div>
-                    <button onclick="handleUpdateProfile()" class="w-full bg-black text-white py-4 text-[11px] font-black uppercase tracking-widest mt-4">Update</button>
+                    
+                    <div class="pt-4 border-t border-gray-100">
+                        <label class="form-label !w-full">배송 주소</label>
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" id="my-postcode" placeholder="우편번호" class="form-input !w-24 bg-gray-50 text-center" readonly>
+                            <button onclick="execDaumPostcode('mypage')" class="bg-black text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shrink-0">찾기</button>
+                        </div>
+                        <input type="text" id="my-address" placeholder="기본 주소" class="form-input bg-gray-50 mb-2" readonly>
+                        <input type="text" id="my-address-detail" placeholder="상세 주소" class="form-input">
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100">
+                        <label class="form-label !w-full">비밀번호 변경</label>
+                        <input type="password" id="my-pw" placeholder="비워두면 변경안함" class="form-input">
+                    </div>
+                    <button onclick="handleUpdateProfile()" class="w-full bg-black text-white py-4 text-[11px] font-black uppercase tracking-widest mt-4">Update Profile</button>
                 </div>
             </div>
             <div class="md:col-span-2 space-y-8">
@@ -164,7 +177,7 @@
             <h2 class="text-4xl font-black tracking-tighter italic text-center">SIGN IN</h2>
             <div class="space-y-4">
                 <input type="text" id="login-id" placeholder="ID" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold">
-                <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PASSWORD" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold text-center">
+                <input type="password" id="login-pw" onkeyup="if(event.key === 'Enter') handleLogin()" placeholder="PASSWORD" class="w-full border-b-2 border-gray-100 py-4 outline-none focus:border-black text-sm font-bold">
                 <button onclick="handleLogin()" class="w-full bg-black text-white py-5 text-[11px] font-black tracking-widest mt-8 uppercase">Login</button>
                 <button onclick="showView('signup')" class="w-full text-[10px] text-gray-400 font-bold uppercase mt-4 underline italic">Create Account</button>
             </div>
@@ -183,7 +196,6 @@
 
     <footer class="ssg-header py-32 text-center text-[11px] text-white/40 tracking-widest uppercase font-medium">
         <p class="font-black text-white mb-10 italic text-3xl tracking-tighter">GongGamMall</p>
-        
         <div class="space-y-2 text-white/60">
             <p>Company: 공감몰 주식회사</p>
             <p>Representative: 김원석</p>
@@ -193,13 +205,9 @@
     </footer>
 
     <a href="http://pf.kakao.com/_JxcJFn/chat" target="_blank" id="kakao-float-btn" class="fixed bottom-8 right-8 z-[999] group">
-        <div class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black text-white text-[10px] font-black py-2 px-4 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none tracking-widest uppercase shadow-xl">
-            Need Help?
-        </div>
+        <div class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black text-white text-[10px] font-black py-2 px-4 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none tracking-widest uppercase shadow-xl">Need Help?</div>
         <div class="w-14 h-14 bg-[#fae100] rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110 active:scale-95">
-            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#3c1e1e">
-                <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.315 6.091l-1.091 4.019 4.705-3.118c.347.048.702.073 1.071.073 4.97 0 9-3.185 9-7.115S16.97 3 12 3z"/>
-            </svg>
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#3c1e1e"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.315 6.091l-1.091 4.019 4.705-3.118c.347.048.702.073 1.071.073 4.97 0 9-3.185 9-7.115S16.97 3 12 3z"/></svg>
         </div>
     </a>
 
@@ -213,12 +221,10 @@
             updateAuthUI(); 
             await loadProducts(); 
             updateCartBadge(); 
-
             window.onpopstate = function(event) {
                 const view = event.state ? event.state.view : 'home';
                 showView(view, false);
             };
-
             const initialView = window.location.hash.replace('#', '') || 'home';
             showView(initialView, false);
         }
@@ -231,10 +237,14 @@
                         document.getElementById('chk-postcode').value = data.zonecode;
                         document.getElementById("chk-address").value = addr;
                         document.getElementById("chk-address-detail").focus();
-                    } else {
+                    } else if(type === 'reg') {
                         document.getElementById('reg-postcode').value = data.zonecode;
                         document.getElementById("reg-address").value = addr;
                         document.getElementById("reg-address-detail").focus();
+                    } else if(type === 'mypage') {
+                        document.getElementById('my-postcode').value = data.zonecode;
+                        document.getElementById("my-address").value = addr;
+                        document.getElementById("my-address-detail").focus();
                     }
                 }
             }).open();
@@ -327,6 +337,11 @@
             document.getElementById('my-id').value = currentUser.id;
             document.getElementById('my-name').value = currentUser.name || '';
             document.getElementById('my-phone').value = currentUser.phone || '';
+            // 주소 정보 표시
+            document.getElementById('my-postcode').value = currentUser.postcode || '';
+            document.getElementById('my-address').value = currentUser.address || '';
+            document.getElementById('my-address-detail').value = currentUser.addressDetail || '';
+
             const container = document.getElementById('my-orders-list');
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getMyOrders&userId=${currentUser.id}`);
@@ -353,9 +368,26 @@
         }
 
         async function handleUpdateProfile() {
-            const data = { id: document.getElementById('my-id').value, name: document.getElementById('my-name').value, phone: document.getElementById('my-phone').value, pw: document.getElementById('my-pw').value };
+            const data = { 
+                id: document.getElementById('my-id').value, 
+                name: document.getElementById('my-name').value, 
+                phone: document.getElementById('my-phone').value, 
+                pw: document.getElementById('my-pw').value,
+                postcode: document.getElementById('my-postcode').value,
+                address: document.getElementById('my-address').value,
+                addressDetail: document.getElementById('my-address-detail').value
+            };
             const res = await fetch(`${WEB_APP_URL}?action=updateUser&data=${encodeURIComponent(JSON.stringify(data))}`);
-            if(await res.text() === 'success') { alert('수정 완료'); currentUser.name = data.name; currentUser.phone = data.phone; localStorage.setItem('ggm_user', JSON.stringify(currentUser)); location.reload(); }
+            if(await res.text() === 'success') { 
+                alert('수정 완료'); 
+                currentUser.name = data.name; 
+                currentUser.phone = data.phone; 
+                currentUser.postcode = data.postcode;
+                currentUser.address = data.address;
+                currentUser.addressDetail = data.addressDetail;
+                localStorage.setItem('ggm_user', JSON.stringify(currentUser)); 
+                location.reload(); 
+            }
         }
 
         async function handleSignup() {
@@ -380,10 +412,16 @@
             const totalStr = total.toLocaleString() + ' KRW';
             document.getElementById('chk-total-items').innerText = totalStr;
             document.getElementById('chk-final-total').innerText = totalStr;
+            
+            // 주문 정보에 로그인 정보 자동 입력 (주소 포함)
             document.getElementById('chk-orderer-name').value = currentUser.name || '';
             document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
             document.getElementById('chk-name').value = currentUser.name || '';
             document.getElementById('chk-phone').value = currentUser.phone || '';
+            document.getElementById('chk-postcode').value = currentUser.postcode || '';
+            document.getElementById('chk-address').value = currentUser.address || '';
+            document.getElementById('chk-address-detail').value = currentUser.addressDetail || '';
+
             showView('checkout');
         }
 
@@ -406,7 +444,15 @@
             const res = await fetch(`${WEB_APP_URL}?action=login&data=${encodeURIComponent(JSON.stringify({id, pw}))}`); 
             const data = await res.json(); 
             if(data.result === 'success') { 
-                currentUser = { id, name: data.name, phone: data.phone }; 
+                // 서버 응답에서 주소 정보를 포함하여 저장
+                currentUser = { 
+                    id, 
+                    name: data.name, 
+                    phone: data.phone,
+                    postcode: data.postcode || '',
+                    address: data.address || '',
+                    addressDetail: data.addressDetail || ''
+                }; 
                 localStorage.setItem('ggm_user', JSON.stringify(currentUser)); 
                 location.reload(); 
             } else alert('로그인 실패'); 
