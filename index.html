@@ -191,9 +191,9 @@
     </footer>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbymsAT-gByE2QYAsPABgNnn5bGIFU741Xqv_I5VNQEbRbBgwgs-UtfMNWjZW6Jwz-ES/exec';
+        // ★ 여기서 사장님이 방금 알려주신 '진짜' 백엔드 주소로 교체했습니다!
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzQ_v0agoGc24UxU6Xbj5HRXNIRgqpudQrCM8Nvp2Qn8PUnF6MJe-tfg7gG6JnMbvv5/exec';
         
-        // 1. 초기 변수 세팅
         let allProducts = [];
         let cart = JSON.parse(localStorage.getItem('ggm_cart')) || [];
         let currentUser = JSON.parse(localStorage.getItem('ggm_user'));
@@ -201,12 +201,11 @@
         let currentQty = 1;
         let orderType = 'single';
 
-        // ★ [핵심 문제 해결] 과거의 데이터 구조를 가진 유저 강제 로그아웃
-        // 예전에 로그인했던 기록은 주소(postcode) 값이 아예 없으므로, 이를 감지하여 깔끔하게 지우고 다시 로그인하도록 유도합니다.
+        // 과거 찌꺼기 데이터 강제 로그아웃
         if (currentUser && typeof currentUser.postcode === 'undefined') {
             localStorage.removeItem('ggm_user');
             currentUser = null;
-            alert("업데이트 적용을 위해 기존 접속 정보가 초기화되었습니다. 다시 로그인해 주세요!");
+            alert("시스템 업데이트로 인해 로그아웃 되었습니다. 다시 로그인해 주세요!");
         }
 
         async function init() { 
@@ -332,11 +331,9 @@
             updateCartBadge(); 
         }
 
-        // 마이페이지 데이터 불러오기
         async function loadMyPage() {
             if(!currentUser) return showView('login');
             
-            // 데이터 바인딩
             document.getElementById('my-id').value = currentUser.id || '';
             document.getElementById('my-name').value = currentUser.name || '';
             document.getElementById('my-phone').value = currentUser.phone || '';
@@ -355,7 +352,6 @@
             } catch (e) { container.innerHTML = 'Error loading orders.'; }
         }
 
-        // 회원 정보 수정
         async function handleUpdateProfile() {
             const data = { 
                 id: document.getElementById('my-id').value, 
@@ -374,7 +370,6 @@
             }
         }
 
-        // 주문서 화면 구성
         function goToCheckout(type) {
             if(!currentUser) return showView('login');
             orderType = type; 
@@ -393,7 +388,6 @@
             document.getElementById('chk-total-items').innerText = total.toLocaleString() + ' KRW';
             document.getElementById('chk-final-total').innerText = total.toLocaleString() + ' KRW';
             
-            // 주문서 자동 채움
             document.getElementById('chk-orderer-name').value = currentUser.name || '';
             document.getElementById('chk-orderer-phone').value = currentUser.phone || '';
             document.getElementById('chk-name').value = currentUser.name || '';
@@ -404,7 +398,6 @@
             showView('checkout');
         }
 
-        // 주문 제출
         async function submitOrder() {
             if(!document.getElementById('chk-agree').checked) return alert('약관 동의 필요');
             const btn = document.getElementById('final-submit-btn'); 
@@ -427,11 +420,18 @@
 
             await fetch(`${WEB_APP_URL}?action=addOrder&data=${encodeURIComponent(JSON.stringify(finalData))}`);
             if(orderType === 'cart') { cart = []; localStorage.removeItem('ggm_cart'); }
-            alert('주문 접수 완료!'); 
-            location.reload();
+            
+            // 결제 금액만 추출해서 토스 링크에 넣기
+            const totalPrice = document.getElementById('chk-final-total').innerText.replace(/[^0-9]/g, '');
+            const tossUrl = `https://toss.me/공감몰토스아이디/${totalPrice}`;
+            
+            if(confirm('주문이 접수되었습니다!\n결제(송금) 화면으로 이동할까요?')) {
+                window.location.href = tossUrl;
+            } else {
+                location.reload();
+            }
         }
 
-        // 로그인
         async function handleLogin() { 
             const id = document.getElementById('login-id').value;
             const pw = document.getElementById('login-pw').value;
@@ -451,7 +451,6 @@
             } else alert('로그인 실패: 아이디와 비밀번호를 확인해주세요.'); 
         }
         
-        // 회원가입
         async function handleSignup() {
             const data = { 
                 id: document.getElementById('reg-id').value, 
@@ -468,7 +467,6 @@
             if(resText === 'success') { alert('가입 완료!'); showView('login'); } else if(resText === 'exists') alert('이미 존재하는 ID입니다.'); else alert('가입 실패.');
         }
 
-        // 공통 유틸리티
         function handleLogout() { localStorage.removeItem('ggm_user'); location.reload(); }
         
         function updateAuthUI() { 
